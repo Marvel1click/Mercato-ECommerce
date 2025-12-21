@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
-import type { Product, Category } from '../types/database';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "../lib/supabase";
+import type { Product, Category } from "../types/database";
 
 interface ProductFilters {
   category?: string;
@@ -15,7 +15,7 @@ interface ProductFilters {
 
 interface UseProductsOptions {
   filters?: ProductFilters;
-  sort?: 'price_asc' | 'price_desc' | 'newest' | 'rating' | 'popularity';
+  sort?: "price_asc" | "price_desc" | "newest" | "rating" | "popularity";
   limit?: number;
   featured?: boolean;
   isNew?: boolean;
@@ -32,46 +32,46 @@ export function useProducts(options: UseProductsOptions = {}) {
     setError(null);
 
     try {
-      let query = supabase.from('products').select('*', { count: 'exact' });
+      let query = supabase.from("products").select("*", { count: "exact" });
 
       if (options.featured) {
-        query = query.eq('is_featured', true);
+        query = query.eq("is_featured", true);
       }
 
       if (options.isNew) {
-        query = query.eq('is_new', true);
+        query = query.eq("is_new", true);
       }
 
       if (options.filters?.category) {
         const { data: category } = await supabase
-          .from('categories')
-          .select('id')
-          .eq('slug', options.filters.category)
+          .from("categories")
+          .select("id")
+          .eq("slug", options.filters.category)
           .maybeSingle();
 
         if (category) {
-          query = query.eq('category_id', (category as any).id);
+          query = query.eq("category_id", (category as any).id);
         }
       }
 
       if (options.filters?.minPrice !== undefined) {
-        query = query.gte('price', options.filters.minPrice);
+        query = query.gte("price", options.filters.minPrice);
       }
 
       if (options.filters?.maxPrice !== undefined) {
-        query = query.lte('price', options.filters.maxPrice);
+        query = query.lte("price", options.filters.maxPrice);
       }
 
       if (options.filters?.brands?.length) {
-        query = query.in('brand', options.filters.brands);
+        query = query.in("brand", options.filters.brands);
       }
 
       if (options.filters?.minRating !== undefined) {
-        query = query.gte('rating', options.filters.minRating);
+        query = query.gte("rating", options.filters.minRating);
       }
 
       if (options.filters?.inStock) {
-        query = query.gt('stock', 0);
+        query = query.gt("stock", 0);
       }
 
       if (options.filters?.search) {
@@ -81,23 +81,23 @@ export function useProducts(options: UseProductsOptions = {}) {
       }
 
       switch (options.sort) {
-        case 'price_asc':
-          query = query.order('price', { ascending: true });
+        case "price_asc":
+          query = query.order("price", { ascending: true });
           break;
-        case 'price_desc':
-          query = query.order('price', { ascending: false });
+        case "price_desc":
+          query = query.order("price", { ascending: false });
           break;
-        case 'newest':
-          query = query.order('created_at', { ascending: false });
+        case "newest":
+          query = query.order("created_at", { ascending: false });
           break;
-        case 'rating':
-          query = query.order('rating', { ascending: false });
+        case "rating":
+          query = query.order("rating", { ascending: false });
           break;
-        case 'popularity':
-          query = query.order('review_count', { ascending: false });
+        case "popularity":
+          query = query.order("review_count", { ascending: false });
           break;
         default:
-          query = query.order('created_at', { ascending: false });
+          query = query.order("created_at", { ascending: false });
       }
 
       if (options.limit) {
@@ -111,11 +111,27 @@ export function useProducts(options: UseProductsOptions = {}) {
       setProducts(data || []);
       setTotalCount(count || 0);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch products');
+      console.warn("Supabase fetch failed, falling back to mock data:", err);
+      const { MOCK_PRODUCTS } = await import("../lib/mockData");
+
+      let filtered = [...MOCK_PRODUCTS];
+      if (options.featured) filtered = filtered.filter((p) => p.is_featured);
+      if (options.isNew) filtered = filtered.filter((p) => p.is_new);
+      if (options.limit) filtered = filtered.slice(0, options.limit);
+
+      setProducts(filtered);
+      setTotalCount(filtered.length);
+      setError(err instanceof Error ? err.message : "Failed to fetch products");
     } finally {
       setLoading(false);
     }
-  }, [options.featured, options.isNew, options.filters, options.sort, options.limit]);
+  }, [
+    options.featured,
+    options.isNew,
+    options.filters,
+    options.sort,
+    options.limit,
+  ]);
 
   useEffect(() => {
     fetchProducts();
@@ -136,16 +152,18 @@ export function useProduct(slug: string) {
 
       try {
         const { data, error: queryError } = await supabase
-          .from('products')
-          .select('*')
-          .eq('slug', slug)
+          .from("products")
+          .select("*")
+          .eq("slug", slug)
           .maybeSingle();
 
         if (queryError) throw queryError;
 
         setProduct(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch product');
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch product"
+        );
       } finally {
         setLoading(false);
       }
@@ -168,15 +186,23 @@ export function useCategories() {
     async function fetchCategories() {
       try {
         const { data, error: queryError } = await supabase
-          .from('categories')
-          .select('*')
-          .order('sort_order');
+          .from("categories")
+          .select("*")
+          .order("sort_order");
 
         if (queryError) throw queryError;
 
         setCategories(data || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch categories');
+        console.warn(
+          "Supabase fetch failed for categories, falling back to mock data:",
+          err
+        );
+        const { MOCK_CATEGORIES } = await import("../lib/mockData");
+        setCategories(MOCK_CATEGORIES);
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch categories"
+        );
       } finally {
         setLoading(false);
       }
@@ -192,7 +218,11 @@ export function useCategories() {
   return { categories, mainCategories, getSubcategories, loading, error };
 }
 
-export function useRelatedProducts(productId: string, categoryId: string | null, limit = 4) {
+export function useRelatedProducts(
+  productId: string,
+  categoryId: string | null,
+  limit = 4
+) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -205,10 +235,10 @@ export function useRelatedProducts(productId: string, categoryId: string | null,
 
       try {
         const { data } = await supabase
-          .from('products')
-          .select('*')
-          .eq('category_id', categoryId)
-          .neq('id', productId)
+          .from("products")
+          .select("*")
+          .eq("category_id", categoryId)
+          .neq("id", productId)
           .limit(limit);
 
         setProducts(data || []);
@@ -231,12 +261,14 @@ export function useBrands() {
   useEffect(() => {
     async function fetchBrands() {
       const { data } = await supabase
-        .from('products')
-        .select('brand')
-        .not('brand', 'is', null);
+        .from("products")
+        .select("brand")
+        .not("brand", "is", null);
 
       if (data) {
-        const uniqueBrands = [...new Set(data.map((p: any) => p.brand).filter(Boolean))] as string[];
+        const uniqueBrands = [
+          ...new Set(data.map((p: any) => p.brand).filter(Boolean)),
+        ] as string[];
         setBrands(uniqueBrands.sort());
       }
     }

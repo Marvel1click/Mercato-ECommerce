@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
 import {
   Search,
   ShoppingCart,
@@ -7,12 +7,12 @@ import {
   Menu,
   X,
   ChevronDown,
-} from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
-import { useWishlist } from '../../contexts/WishlistContext';
-import { useAuth } from '../../contexts/AuthContext';
-import { useUI } from '../../contexts/UIContext';
-import { useCategories } from '../../hooks/useProducts';
+} from "lucide-react";
+import { useCart } from "../../contexts/CartContext";
+import { useWishlist } from "../../contexts/WishlistContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { useUI } from "../../contexts/UIContext";
+import { useCategories } from "../../hooks/useProducts";
 
 interface HeaderProps {
   currentPage: string;
@@ -21,7 +21,7 @@ interface HeaderProps {
 
 export default function Header({ currentPage, onNavigate }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isMegaMenuOpen, setMegaMenuOpen] = useState(false);
   const { itemCount, toggleCart } = useCart();
   const { items: wishlistItems } = useWishlist();
@@ -29,13 +29,13 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
   const { setMobileMenuOpen, isMobileMenuOpen, setAuthModalOpen } = useUI();
   const { mainCategories, getSubcategories } = useCategories();
 
-  useState(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  });
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
   return (
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md' : 'bg-white/95 backdrop-blur-sm'
+        isScrolled ? "bg-white shadow-md" : "bg-white/95 backdrop-blur-sm"
       }`}
     >
       <div className="bg-terracotta-500 text-white text-sm py-2">
@@ -62,11 +62,15 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             className="lg:hidden p-2 -ml-2"
             onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </button>
 
           <button
-            onClick={() => onNavigate('home')}
+            onClick={() => onNavigate("home")}
             className="flex items-center gap-2"
           >
             <div className="w-10 h-10 bg-terracotta-500 rounded-full flex items-center justify-center">
@@ -100,7 +104,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
 
           <div className="flex items-center gap-2 sm:gap-4">
             <button
-              onClick={() => onNavigate('wishlist')}
+              onClick={() => onNavigate("wishlist")}
               className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
               <Heart className="w-6 h-6" />
@@ -125,7 +129,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
 
             {user ? (
               <button
-                onClick={() => onNavigate('account')}
+                onClick={() => onNavigate("account")}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
               >
                 <User className="w-6 h-6" />
@@ -144,11 +148,11 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
 
         <nav className="hidden lg:flex items-center justify-center border-t border-gray-100 py-3">
           <button
-            onClick={() => onNavigate('home')}
+            onClick={() => onNavigate("home")}
             className={`px-4 py-2 font-medium transition-colors ${
-              currentPage === 'home'
-                ? 'text-terracotta-600'
-                : 'text-gray-700 hover:text-terracotta-600'
+              currentPage === "home"
+                ? "text-terracotta-600"
+                : "text-gray-700 hover:text-terracotta-600"
             }`}
           >
             Home
@@ -161,9 +165,9 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
           >
             <button
               className={`flex items-center gap-1 px-4 py-2 font-medium transition-colors ${
-                currentPage.startsWith('products')
-                  ? 'text-terracotta-600'
-                  : 'text-gray-700 hover:text-terracotta-600'
+                currentPage.startsWith("products")
+                  ? "text-terracotta-600"
+                  : "text-gray-700 hover:text-terracotta-600"
               }`}
             >
               Shop
@@ -206,7 +210,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                   <div className="mt-6 pt-6 border-t">
                     <button
                       onClick={() => {
-                        onNavigate('products');
+                        onNavigate("products");
                         setMegaMenuOpen(false);
                       }}
                       className="text-terracotta-600 font-medium hover:text-terracotta-700"
@@ -220,21 +224,21 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
           </div>
 
           <button
-            onClick={() => onNavigate('products?featured=true')}
+            onClick={() => onNavigate("products?featured=true")}
             className="px-4 py-2 font-medium text-gray-700 hover:text-terracotta-600 transition-colors"
           >
             Featured
           </button>
 
           <button
-            onClick={() => onNavigate('products?new=true')}
+            onClick={() => onNavigate("products?new=true")}
             className="px-4 py-2 font-medium text-gray-700 hover:text-terracotta-600 transition-colors"
           >
             New Arrivals
           </button>
 
           <button
-            onClick={() => onNavigate('products?category=gift-collections')}
+            onClick={() => onNavigate("products?category=gift-collections")}
             className="px-4 py-2 font-medium text-gray-700 hover:text-terracotta-600 transition-colors"
           >
             Gifts
@@ -266,7 +270,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             <nav className="space-y-1">
               <button
                 onClick={() => {
-                  onNavigate('home');
+                  onNavigate("home");
                   setMobileMenuOpen(false);
                 }}
                 className="w-full text-left px-4 py-3 font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
@@ -275,7 +279,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
               </button>
               <button
                 onClick={() => {
-                  onNavigate('products');
+                  onNavigate("products");
                   setMobileMenuOpen(false);
                 }}
                 className="w-full text-left px-4 py-3 font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
