@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, CreditCard, Truck, ShoppingBag, ArrowLeft, Loader2 } from 'lucide-react';
+import { Check, CreditCard, Truck, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useUI } from '../contexts/UIContext';
@@ -8,7 +8,6 @@ import { useCreateOrder } from '../hooks/useOrders';
 import { useCoupons } from '../hooks/useCoupons';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
-import Select from '../components/ui/Select';
 
 interface CheckoutPageProps {
   onNavigate: (page: string) => void;
@@ -27,7 +26,7 @@ const steps = [
 ];
 
 export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
-  const { items, subtotal, discount, tax, total, coupon, applyCoupon, removeCoupon } = useCart();
+  const { items, subtotal, discount, tax, coupon, applyCoupon, removeCoupon } = useCart();
   const { user } = useAuth();
   const { showToast, setAuthModalOpen } = useUI();
   const { defaultAddress } = useAddresses();

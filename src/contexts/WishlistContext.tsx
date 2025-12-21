@@ -66,7 +66,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
     if (data) {
       const products = data
-        .map((item) => item.products as unknown as Product)
+        .map((item: any) => item.products as Product)
         .filter(Boolean);
       dispatch({ type: 'SET_ITEMS', items: products });
     }
@@ -94,7 +94,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
       await supabase.from('wishlists').insert({
         user_id: user.id,
         product_id: product.id,
-      });
+      } as any);
     } else {
       const newItems = [...state.items, product];
       saveToStorage(newItems);

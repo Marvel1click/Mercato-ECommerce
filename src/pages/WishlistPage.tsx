@@ -14,12 +14,6 @@ export default function WishlistPage({ onNavigate }: WishlistPageProps) {
   const { addItem, toggleCart } = useCart();
   const { showToast } = useUI();
 
-  const handleAddToCart = (product: typeof items[0]) => {
-    addItem(product);
-    showToast(`${product.name} added to cart`);
-    toggleCart(true);
-  };
-
   const handleRemove = (product: typeof items[0]) => {
     removeFromWishlist(product.id);
     showToast('Removed from wishlist');

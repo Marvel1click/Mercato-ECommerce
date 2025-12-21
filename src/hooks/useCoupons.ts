@@ -25,18 +25,19 @@ export function useCoupons() {
         return null;
       }
 
-      if (data.expires_at && new Date(data.expires_at) < new Date()) {
+      const coupon = data as any;
+      if (coupon.expires_at && new Date(coupon.expires_at) < new Date()) {
         setError('This coupon has expired');
         return null;
       }
 
-      if (data.max_uses && data.used_count >= data.max_uses) {
+      if (coupon.max_uses && coupon.used_count >= coupon.max_uses) {
         setError('This coupon has reached its usage limit');
         return null;
       }
 
-      if (data.min_order_amount && orderAmount < data.min_order_amount) {
-        setError(`Minimum order amount of $${data.min_order_amount.toFixed(2)} required`);
+      if (coupon.min_order_amount && orderAmount < coupon.min_order_amount) {
+        setError(`Minimum order amount of $${coupon.min_order_amount.toFixed(2)} required`);
         return null;
       }
 

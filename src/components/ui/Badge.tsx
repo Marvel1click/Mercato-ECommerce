@@ -4,9 +4,10 @@ interface BadgeProps {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
   size?: 'sm' | 'md';
+  className?: string;
 }
 
-export default function Badge({ children, variant = 'primary', size = 'md' }: BadgeProps) {
+export default function Badge({ children, variant = 'primary', size = 'md', className = '' }: BadgeProps) {
   const variants = {
     primary: 'bg-terracotta-100 text-terracotta-700',
     secondary: 'bg-olive-100 text-olive-700',
@@ -23,7 +24,7 @@ export default function Badge({ children, variant = 'primary', size = 'md' }: Ba
 
   return (
     <span
-      className={`inline-flex items-center font-medium rounded-full ${variants[variant]} ${sizes[size]}`}
+      className={`inline-flex items-center font-medium rounded-full ${variants[variant]} ${sizes[size]} ${className}`}
     >
       {children}
     </span>

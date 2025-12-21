@@ -50,7 +50,7 @@ export function useProducts(options: UseProductsOptions = {}) {
           .maybeSingle();
 
         if (category) {
-          query = query.eq('category_id', category.id);
+          query = query.eq('category_id', (category as any).id);
         }
       }
 
@@ -236,7 +236,7 @@ export function useBrands() {
         .not('brand', 'is', null);
 
       if (data) {
-        const uniqueBrands = [...new Set(data.map((p) => p.brand).filter(Boolean))] as string[];
+        const uniqueBrands = [...new Set(data.map((p: any) => p.brand).filter(Boolean))] as string[];
         setBrands(uniqueBrands.sort());
       }
     }

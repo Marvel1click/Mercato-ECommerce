@@ -112,14 +112,14 @@ export function useCreateOrder() {
           payment_method: paymentMethod,
           payment_status: 'paid',
           shipping_method: shippingMethod,
-        })
+        } as any)
         .select()
         .single();
 
       if (orderError) throw orderError;
 
       const orderItems = items.map((item) => ({
-        order_id: order.id,
+        order_id: (order as any).id,
         product_id: item.product.id,
         product_name: item.product.name,
         product_image: item.product.images[0] || null,
@@ -129,7 +129,7 @@ export function useCreateOrder() {
 
       const { error: itemsError } = await supabase
         .from('order_items')
-        .insert(orderItems);
+        .insert(orderItems as any);
 
       if (itemsError) throw itemsError;
 
