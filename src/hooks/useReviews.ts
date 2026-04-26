@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import type { Review } from '../types/database';
+import type { Database, Review } from '../types/database';
 import { useAuth } from '../contexts/AuthContext';
 
 interface ReviewWithProfile extends Review {
@@ -9,6 +9,9 @@ interface ReviewWithProfile extends Review {
     avatar_url: string | null;
   };
 }
+
+type ReviewInsert = Database['public']['Tables']['reviews']['Insert'];
+type ReviewUpdate = Database['public']['Tables']['reviews']['Update'];
 
 export function useReviews(productId: string) {
   const [reviews, setReviews] = useState<ReviewWithProfile[]>([]);
@@ -49,13 +52,17 @@ export function useReviews(productId: string) {
   const addReview = async (rating: number, title: string, content: string) => {
     if (!user) throw new Error('Must be logged in to review');
 
-    const { error: insertError } = await supabase.from('reviews').insert({
+    const reviewData: ReviewInsert = {
       product_id: productId,
       user_id: user.id,
       rating,
       title,
       content,
-    } as any);
+    };
+
+    const { error: insertError } = await supabase
+      .from('reviews')
+      .insert(reviewData as never);
 
     if (insertError) throw insertError;
     await fetchReviews();
@@ -67,8 +74,7 @@ export function useReviews(productId: string) {
 
     await supabase
       .from('reviews')
-      // @ts-expect-error - Supabase generated types are too strict
-      .update({ helpful_votes: review.helpful_votes + 1 } as any)
+      .update(({ helpful_votes: review.helpful_votes + 1 } satisfies ReviewUpdate) as never)
       .eq('id', reviewId);
 
     setReviews((prev) =>

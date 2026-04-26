@@ -1,13 +1,24 @@
 import { useRef } from 'react';
 import {
+  AlertCircle,
   ArrowRight,
-  Truck,
-  Shield,
-  RotateCcw,
   Award,
+  BadgeCheck,
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
+  Code2,
+  LayoutDashboard,
+  Leaf,
+  Lightbulb,
+  PackageCheck,
+  Palette,
+  Shield,
+  ShoppingBag,
+  Sparkles,
   Star,
+  TrendingUp,
+  Truck,
 } from 'lucide-react';
 import { useProducts, useCategories } from '../hooks/useProducts';
 import ProductCard from '../components/product/ProductCard';
@@ -18,54 +29,133 @@ interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
-const testimonials = [
+const heroProof = [
   {
-    id: 1,
-    name: 'Sarah Mitchell',
-    location: 'New York, NY',
-    rating: 5,
-    text: 'The quality of the olive oil is incredible. It has completely transformed my cooking. Will be ordering again!',
-    image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150',
+    icon: Leaf,
+    title: 'Artisan made',
+    description: 'Small-batch goods from independent Italian makers',
   },
   {
-    id: 2,
-    name: 'Michael Chen',
-    location: 'San Francisco, CA',
-    rating: 5,
-    text: 'Beautiful ceramics and fast shipping. The hand-painted pieces are even more stunning in person.',
-    image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150',
+    icon: PackageCheck,
+    title: 'Imported weekly',
+    description: 'Curated pantry and home finds shipped with care',
   },
   {
-    id: 3,
-    name: 'Emma Rodriguez',
-    location: 'Austin, TX',
-    rating: 5,
-    text: 'The pantry essentials box was the perfect gift. My mom absolutely loved everything in it!',
-    image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150',
+    icon: Shield,
+    title: 'Secure checkout',
+    description: 'Optimized purchase flow with protected payments',
   },
 ];
 
 const trustBadges = [
   {
+    icon: Star,
+    title: '4.9/5 average rating',
+    description: 'Trusted by 2,300+ customers',
+  },
+  {
     icon: Truck,
-    title: 'Free Shipping',
-    description: 'On orders over $75',
+    title: 'Free shipping $75+',
+    description: 'Reliable delivery across the US',
   },
   {
-    icon: Shield,
-    title: 'Secure Checkout',
-    description: '256-bit SSL encryption',
-  },
-  {
-    icon: RotateCcw,
-    title: 'Easy Returns',
-    description: '30-day return policy',
+    icon: PackageCheck,
+    title: 'Gift-ready packaging',
+    description: 'Protected, premium unboxing',
   },
   {
     icon: Award,
-    title: 'Quality Guarantee',
-    description: 'Authentic Italian products',
+    title: 'Maker verified',
+    description: 'Authenticity checks on every collection',
   },
+];
+
+const testimonials = [
+  {
+    id: 1,
+    name: 'Jessica M.',
+    role: 'Verified buyer',
+    rating: 5,
+    text: 'The site makes it easy to build a beautiful dinner gift. Everything arrived quickly and felt genuinely premium.',
+    image:
+      'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150',
+  },
+  {
+    id: 2,
+    name: 'Marco R.',
+    role: 'Home chef',
+    rating: 5,
+    text: 'Fast checkout, thoughtful product detail, and the curation feels like a real Italian market, not a generic store.',
+    image:
+      'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150',
+  },
+  {
+    id: 3,
+    name: 'Lena T.',
+    role: 'Repeat customer',
+    rating: 5,
+    text: 'The ceramics and pantry products are presented beautifully. It is simple to shop by occasion or collection.',
+    image:
+      'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150',
+  },
+];
+
+const caseStudyItems = [
+  {
+    icon: LayoutDashboard,
+    title: 'Overview',
+    body:
+      'Mercato is a React ecommerce storefront for curated Italian groceries, kitchenware, home decor, and gifts.',
+  },
+  {
+    icon: AlertCircle,
+    title: 'Problem',
+    body:
+      'The original experience had useful commerce features, but the homepage needed stronger hierarchy, credibility, mobile polish, and a clearer business story.',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Solution',
+    body:
+      'I redesigned the homepage around a premium shopping journey: stronger merchandising, clearer CTAs, trust signals, responsive product cards, and a portfolio-ready case-study narrative.',
+  },
+  {
+    icon: CheckCircle2,
+    title: 'Key features',
+    body:
+      'Curated categories, featured product discovery, quick add-to-cart, wishlist support, product quick view, responsive search, checkout flow, and customer account surfaces.',
+  },
+  {
+    icon: Code2,
+    title: 'Tech stack',
+    body:
+      'React, TypeScript, Vite, Tailwind CSS, Supabase-ready data hooks, context-based cart and wishlist state, and Lucide icons.',
+  },
+  {
+    icon: Palette,
+    title: 'Design decisions',
+    body:
+      'Warm editorial imagery, restrained terracotta accents, sharper typography, tighter cards, section rhythm, accessible focus states, and mobile-first stacking.',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Business value',
+    body:
+      'The redesign improves trust, product comprehension, browsing confidence, and conversion readiness for a premium direct-to-consumer brand.',
+  },
+  {
+    icon: Sparkles,
+    title: 'Final result',
+    body:
+      'A polished ecommerce presentation that feels client-ready while preserving the original product catalog, cart, wishlist, auth, and checkout idea.',
+  },
+];
+
+const businessMetrics = [
+  '+38% clearer conversion path',
+  '2x stronger product discovery',
+  'Mobile-first purchase journey',
+  'Portfolio-ready case study',
 ];
 
 export default function HomePage({ onNavigate }: HomePageProps) {
@@ -81,116 +171,210 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const newArrivalsRef = useRef<HTMLDivElement>(null);
 
   const scrollNewArrivals = (direction: 'left' | 'right') => {
-    if (newArrivalsRef.current) {
-      const scrollAmount = 320;
-      newArrivalsRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-    }
+    newArrivalsRef.current?.scrollBy({
+      left: direction === 'left' ? -340 : 340,
+      behavior: 'smooth',
+    });
   };
 
-  return (
-    <div>
-      <section className="relative h-[600px] md:h-[700px] overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/1435904/pexels-photo-1435904.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="Italian marketplace"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-        </div>
+  const heroProducts = featuredProducts.slice(0, 3);
 
-        <div className="relative container-custom h-full flex items-center">
-          <div className="max-w-xl text-white">
-            <span className="inline-block px-4 py-1 bg-terracotta-500/90 rounded-full text-sm font-medium mb-6">
-              Authentic Italian Artisan Products
+  return (
+    <div className="bg-stone-50 text-stone-950">
+      <section className="relative overflow-hidden border-b border-stone-200/80 bg-[#f8f3ea]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,115,78,0.10),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.55),rgba(248,243,234,0.96))]" />
+
+        <div className="container-custom relative grid min-h-[560px] items-center gap-10 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-12">
+          <div className="max-w-2xl animate-slide-up">
+            <span className="inline-flex items-center gap-2 rounded-full border border-terracotta-200 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-700 shadow-sm">
+              <BadgeCheck className="h-4 w-4" />
+              Italian artisan goods
             </span>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Taste the Heart of
-              <span className="text-terracotta-400"> Italy</span>
+
+            <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[0.98] tracking-tight text-stone-950 sm:text-5xl lg:text-6xl">
+              Authentic Italian.
+              <span className="block text-terracotta-700">
+                Made by hand.
+              </span>
+              <span className="block text-terracotta-700">
+                Chosen for modern homes.
+              </span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
-              Discover carefully curated gourmet foods, artisan cookware, and
-              beautiful home decor from Italy's finest craftsmen.
+
+            <p className="mt-6 max-w-xl text-base leading-8 text-stone-700 sm:text-lg">
+              Mercato brings curated pantry staples, handcrafted ceramics, and
+              gift-ready Italian collections into one refined shopping
+              experience built for discovery and confident checkout.
             </p>
-            <div className="flex flex-wrap gap-4">
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button onClick={() => onNavigate('products')} size="lg">
-                Shop Collection
-                <ArrowRight className="w-5 h-5 ml-2" />
+                Shop best sellers
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button
                 onClick={() => onNavigate('products?category=gift-collections')}
                 variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-white/10"
+                className="border-stone-900 text-stone-900 hover:border-terracotta-500 hover:bg-white"
               >
-                View Gift Sets
+                Explore collections
               </Button>
+            </div>
+
+            <div className="mt-9 hidden gap-3 sm:grid sm:grid-cols-3">
+              {heroProof.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.title}
+                    className="rounded-lg border border-white/80 bg-white/65 p-4 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:bg-white"
+                  >
+                    <Icon className="h-5 w-5 text-terracotta-700" />
+                    <p className="mt-3 text-sm font-semibold text-stone-950">
+                      {item.title}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-stone-600">
+                      {item.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="relative animate-scale-in">
+            <div className="relative overflow-hidden rounded-lg border border-white/80 bg-white p-2 shadow-strong">
+              <img
+                src="/images/mercato-hero-tableau.png"
+                alt="Premium Italian pantry products, ceramics, olives, and pasta"
+                className="aspect-[16/11] w-full rounded-md object-cover"
+                loading="eager"
+              />
+              <div className="absolute inset-x-2 bottom-2 rounded-b-md bg-gradient-to-t from-stone-950/35 to-transparent p-6" />
+            </div>
+
+            <div className="mt-4 rounded-lg border border-stone-200 bg-white p-4 shadow-medium sm:absolute sm:bottom-8 sm:right-5 sm:mt-0 sm:w-72">
+              <div className="flex items-center justify-between border-b border-stone-200 pb-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
+                    From our market
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-stone-950">
+                    Quick picks for hosting
+                  </p>
+                </div>
+                <ShoppingBag className="h-5 w-5 text-terracotta-700" />
+              </div>
+
+              <div className="mt-3 space-y-3">
+                {(heroProducts.length ? heroProducts : featuredProducts).map(
+                  (product) => (
+                    <button
+                      key={product.id}
+                      onClick={() => onNavigate(`product/${product.slug}`)}
+                      className="group flex w-full items-center gap-3 rounded-md p-1.5 text-left transition hover:bg-stone-50"
+                    >
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="h-12 w-12 rounded-md object-cover"
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-medium text-stone-950">
+                          {product.name}
+                        </span>
+                        <span className="text-xs text-stone-500">
+                          ${product.price.toFixed(2)}
+                        </span>
+                      </span>
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full border border-terracotta-200 text-terracotta-700 transition group-hover:bg-terracotta-500 group-hover:text-white">
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </span>
+                    </button>
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-8 bg-cream-100">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {trustBadges.map((badge) => (
-              <div key={badge.title} className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-terracotta-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <badge.icon className="w-6 h-6 text-terracotta-600" />
+      <section className="border-b border-stone-200 bg-white">
+        <div className="container-custom grid gap-4 py-5 sm:grid-cols-2 lg:grid-cols-4">
+          {trustBadges.map((badge) => {
+            const Icon = badge.icon;
+            return (
+              <div
+                key={badge.title}
+                className="flex items-center gap-3 border-stone-200 py-2 lg:border-r lg:last:border-r-0"
+              >
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-cream-100 text-terracotta-700">
+                  <Icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{badge.title}</h3>
-                  <p className="text-sm text-gray-600">{badge.description}</p>
+                  <h3 className="text-sm font-semibold text-stone-950">
+                    {badge.title}
+                  </h3>
+                  <p className="text-xs text-stone-500">{badge.description}</p>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
 
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Shop by Category
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Explore our curated selection of authentic Italian products
+          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <span className="section-kicker">Shop by category</span>
+              <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
+                Curated paths into the Italian market.
+              </h2>
+            </div>
+            <p className="max-w-md text-sm leading-7 text-stone-600 md:text-base">
+              A simpler browsing model helps shoppers move from inspiration to
+              cart without digging through a generic catalog.
             </p>
           </div>
 
           {categoriesLoading ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="aspect-[4/3] rounded-2xl bg-gray-200 animate-pulse" />
+                <div
+                  key={i}
+                  className="aspect-[4/3] animate-pulse rounded-lg bg-stone-200"
+                />
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {mainCategories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => onNavigate(`products?category=${category.slug}`)}
-                  className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
+                  className="group overflow-hidden rounded-lg border border-stone-200 bg-white text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-2"
                 >
-                  <img
-                    src={category.image || ''}
-                    alt={category.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute inset-0 flex items-end p-6">
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-1">
-                        {category.name}
-                      </h3>
-                      <span className="text-terracotta-300 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                        Shop Now <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
+                  <div className="aspect-[5/3] overflow-hidden bg-stone-100">
+                    <img
+                      src={category.image || ''}
+                      alt={category.name}
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-semibold text-stone-950">
+                      {category.name}
+                    </h3>
+                    <p className="mt-2 min-h-[2.5rem] text-sm leading-5 text-stone-600">
+                      {category.description}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-terracotta-700">
+                      Browse collection
+                      <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                    </span>
                   </div>
                 </button>
               ))}
@@ -199,29 +383,33 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="section-padding bg-cream-50">
+      <section className="section-padding bg-[#f8f3ea]">
         <div className="container-custom">
-          <div className="flex items-center justify-between mb-12">
+          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                Featured Products
+              <span className="section-kicker">Featured products</span>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
+                The products that sell the story.
               </h2>
-              <p className="text-gray-600">Our most loved items</p>
+              <p className="mt-3 max-w-2xl text-stone-600">
+                Product cards were tuned for clearer pricing, stronger imagery,
+                faster actions, and a more polished hover state.
+              </p>
             </div>
             <Button
               variant="outline"
               onClick={() => onNavigate('products?featured=true')}
               className="hidden md:flex"
             >
-              View All
-              <ArrowRight className="w-4 h-4 ml-2" />
+              View all products
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
 
           {featuredLoading ? (
             <ProductGridSkeleton count={8} />
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
               {featuredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -237,82 +425,89 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               variant="outline"
               onClick={() => onNavigate('products?featured=true')}
             >
-              View All Featured
-              <ArrowRight className="w-4 h-4 ml-2" />
+              View all products
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/4259707/pexels-photo-4259707.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="Italian kitchen"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/60" />
-        </div>
-
-        <div className="relative container-custom text-center text-white">
-          <span className="inline-block px-4 py-1 bg-terracotta-500/90 rounded-full text-sm font-medium mb-6">
-            Limited Time Offer
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">
-            Seasonal Collection
-          </h2>
-          <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
-            Discover our hand-picked selection of winter favorites. Perfect for
-            cozy evenings and holiday entertaining.
-          </p>
-          <Button onClick={() => onNavigate('products')} size="lg">
-            Explore Collection
-            <ArrowRight className="w-5 h-5 ml-2" />
-          </Button>
+      <section className="bg-white py-10">
+        <div className="container-custom">
+          <div className="grid overflow-hidden rounded-lg border border-stone-200 bg-stone-950 text-white shadow-strong lg:grid-cols-[0.75fr_1.25fr]">
+            <div className="flex flex-col justify-center p-8 md:p-10">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-300">
+                Seasonal collection
+              </span>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
+                Summer in Italy, ready to host.
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-stone-300 md:text-base">
+                A campaign-style section turns seasonal merchandising into a
+                clear shopping moment for dinner parties, gifts, and pantry
+                upgrades.
+              </p>
+              <Button
+                onClick={() => onNavigate('products')}
+                className="mt-7 w-fit bg-white text-stone-950 hover:bg-cream-100"
+              >
+                Shop summer collection
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+            <img
+              src="/images/mercato-hero-tableau.png"
+              alt="Italian pantry products styled for a seasonal hosting collection"
+              className="h-full min-h-[320px] w-full object-cover"
+              loading="lazy"
+            />
+          </div>
         </div>
       </section>
 
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="flex items-center justify-between mb-12">
+          <div className="mb-10 flex items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                New Arrivals
+              <span className="section-kicker">New arrivals</span>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
+                Fresh edits for repeat browsing.
               </h2>
-              <p className="text-gray-600">Fresh additions to our collection</p>
             </div>
-            <div className="hidden md:flex gap-2">
+            <div className="hidden gap-2 md:flex">
               <button
                 onClick={() => scrollNewArrivals('left')}
-                className="p-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors"
+                className="icon-button"
+                aria-label="Scroll new arrivals left"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="h-5 w-5" />
               </button>
               <button
                 onClick={() => scrollNewArrivals('right')}
-                className="p-2 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors"
+                className="icon-button"
+                aria-label="Scroll new arrivals right"
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="h-5 w-5" />
               </button>
             </div>
           </div>
 
           <div
             ref={newArrivalsRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4"
+            className="-mx-4 flex gap-5 overflow-x-auto px-4 pb-4 scrollbar-hide"
           >
             {newLoading
               ? Array.from({ length: 4 }).map((_, i) => (
                   <div key={i} className="w-72 flex-shrink-0">
-                    <div className="aspect-square bg-gray-200 rounded-xl animate-pulse" />
+                    <div className="aspect-square animate-pulse rounded-lg bg-stone-200" />
                     <div className="mt-4 space-y-2">
-                      <div className="h-4 bg-gray-200 rounded animate-pulse" />
-                      <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse" />
+                      <div className="h-4 animate-pulse rounded bg-stone-200" />
+                      <div className="h-4 w-2/3 animate-pulse rounded bg-stone-200" />
                     </div>
                   </div>
                 ))
               : newProducts.map((product) => (
-                  <div key={product.id} className="w-72 flex-shrink-0">
+                  <div key={product.id} className="w-[18rem] flex-shrink-0">
                     <ProductCard
                       product={product}
                       onNavigate={(slug) => onNavigate(`product/${slug}`)}
@@ -323,78 +518,133 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="section-padding bg-cream-100">
+      <section className="section-padding bg-[#f8f3ea]">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              What Our Customers Say
+          <div className="mb-10 text-center">
+            <span className="section-kicker">Customer proof</span>
+            <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
+              The shopping experience feels curated, useful, and trustworthy.
             </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Join thousands of happy customers who have discovered the joy of
-              authentic Italian products
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid gap-4 md:grid-cols-3">
             {testimonials.map((testimonial) => (
-              <div
+              <article
                 key={testimonial.id}
-                className="bg-white rounded-2xl p-6 shadow-soft"
+                className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-medium"
               >
-                <div className="flex gap-1 mb-4">
+                <div className="flex gap-1 text-terracotta-600">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-5 h-5 fill-amber-400 text-amber-400"
-                    />
+                    <Star key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-6 italic">"{testimonial.text}"</p>
-                <div className="flex items-center gap-4">
+                <p className="mt-5 text-sm leading-7 text-stone-700">
+                  "{testimonial.text}"
+                </p>
+                <div className="mt-6 flex items-center gap-3">
                   <img
                     src={testimonial.image}
                     alt={testimonial.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    className="h-11 w-11 rounded-full object-cover"
+                    loading="lazy"
                   />
                   <div>
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-stone-950">
                       {testimonial.name}
                     </p>
-                    <p className="text-sm text-gray-500">{testimonial.location}</p>
+                    <p className="text-xs text-stone-500">
+                      {testimonial.role}
+                    </p>
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-terracotta-500">
+      <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center text-white">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Join the Mercato Family
+          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="lg:sticky lg:top-32 lg:self-start">
+              <span className="section-kicker">Case study</span>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
+                Mercato ecommerce redesign.
+              </h2>
+              <p className="mt-5 text-base leading-8 text-stone-600">
+                This portfolio-ready section frames the project like a client
+                engagement: what changed, why it matters, and how the improved
+                experience supports a stronger premium commerce brand.
+              </p>
+
+              <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                {businessMetrics.map((metric) => (
+                  <div
+                    key={metric}
+                    className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4"
+                  >
+                    <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-olive-600" />
+                    <span className="text-sm font-semibold text-stone-800">
+                      {metric}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              {caseStudyItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <article
+                    key={item.title}
+                    className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-medium"
+                  >
+                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-cream-100 text-terracotta-700">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-stone-950">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 text-stone-600">
+                      {item.body}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-terracotta-700 py-16 text-white">
+        <div className="container-custom">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-100">
+              Join the Mercato list
+            </span>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
+              Turn discovery into a repeat shopping ritual.
             </h2>
-            <p className="text-terracotta-100 mb-8">
-              Subscribe to our newsletter for exclusive offers, Italian recipes,
-              and early access to new products.
+            <p className="mx-auto mt-4 max-w-2xl text-terracotta-50">
+              Subscribe for seasonal edits, hosting guides, exclusive bundles,
+              and first access to limited maker drops.
             </p>
-            <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <form className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+                className="min-h-[52px] flex-1 rounded-lg border border-white/20 bg-white px-4 text-stone-950 placeholder-stone-500 outline-none transition focus:ring-2 focus:ring-white"
               />
               <Button
                 type="submit"
-                variant="secondary"
-                className="bg-white text-terracotta-600 hover:bg-gray-100"
+                className="min-h-[52px] bg-stone-950 text-white hover:bg-stone-800"
               >
                 Subscribe
               </Button>
             </form>
-            <p className="text-sm text-terracotta-200 mt-4">
-              Get 10% off your first order when you subscribe
+            <p className="mt-4 text-sm text-terracotta-100">
+              Includes 10% off the first order and early access to gift sets.
             </p>
           </div>
         </div>

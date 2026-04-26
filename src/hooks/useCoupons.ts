@@ -25,7 +25,7 @@ export function useCoupons() {
         return null;
       }
 
-      const coupon = data as any;
+      const coupon = data as Coupon;
       if (coupon.expires_at && new Date(coupon.expires_at) < new Date()) {
         setError('This coupon has expired');
         return null;

@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import type { Address } from '../types/database';
+import type { Address, Database } from '../types/database';
 import { useAuth } from '../contexts/AuthContext';
+
+type AddressInsert = Database['public']['Tables']['addresses']['Insert'];
+type AddressUpdate = Database['public']['Tables']['addresses']['Update'];
 
 export function useAddresses() {
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -35,17 +38,18 @@ export function useAddresses() {
     if (address.is_default) {
       await supabase
         .from('addresses')
-        // @ts-expect-error - Supabase generated types are too strict
-        .update({ is_default: false } as any)
+        .update(({ is_default: false } satisfies AddressUpdate) as never)
         .eq('user_id', user.id);
     }
 
+    const insertData: AddressInsert = {
+      ...address,
+      user_id: user.id,
+    };
+
     const { data, error } = await supabase
       .from('addresses')
-      .insert({
-        ...address,
-        user_id: user.id,
-      } as any)
+      .insert(insertData as never)
       .select()
       .single();
 
@@ -62,15 +66,15 @@ export function useAddresses() {
     if (updates.is_default) {
       await supabase
         .from('addresses')
-        // @ts-expect-error - Supabase generated types are too strict
-        .update({ is_default: false } as any)
+        .update(({ is_default: false } satisfies AddressUpdate) as never)
         .eq('user_id', user.id);
     }
 
+    const updateData: AddressUpdate = updates;
+
     const { data, error } = await supabase
       .from('addresses')
-      // @ts-expect-error - Supabase generated types are too strict
-      .update(updates as any)
+      .update(updateData as never)
       .eq('id', id)
       .eq('user_id', user.id)
       .select()

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, Eye, ShoppingCart } from 'lucide-react';
+import { Heart, Eye, ShoppingCart, Plus } from 'lucide-react';
 import type { Product } from '../../types/database';
 import { useCart } from '../../contexts/CartContext';
 import { useWishlist } from '../../contexts/WishlistContext';
@@ -42,81 +42,116 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
   };
 
   return (
-    <div
-      className="group bg-white rounded-xl shadow-soft overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-medium hover:-translate-y-1"
-      onClick={() => onNavigate(product.slug)}
+    <article
+      className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-terracotta-200 hover:shadow-medium focus-within:border-terracotta-300"
     >
-      <div className="relative aspect-square overflow-hidden bg-gray-100">
+      <div className="relative aspect-[4/4.15] overflow-hidden bg-stone-100">
         {!imageLoaded && (
-          <div className="absolute inset-0 animate-pulse bg-gray-200" />
+          <div className="absolute inset-0 animate-pulse bg-stone-200" />
         )}
         <img
           src={product.images[0]}
           alt={product.name}
-          className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+          className={`h-full w-full object-cover transition duration-700 group-hover:scale-105 ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={() => setImageLoaded(true)}
+          loading="lazy"
+        />
+        <button
+          onClick={() => onNavigate(product.slug)}
+          className="absolute inset-0 z-10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-terracotta-500"
+          aria-label={`View ${product.name}`}
         />
 
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
-          {product.is_new && <Badge variant="info">New</Badge>}
-          {discount > 0 && <Badge variant="error">-{discount}%</Badge>}
-          {product.stock === 0 && <Badge variant="warning">Out of Stock</Badge>}
+        <div className="pointer-events-none absolute left-3 top-3 z-20 flex flex-wrap gap-2">
+          {product.is_new && <Badge variant="info" size="sm">New</Badge>}
+          {discount > 0 && <Badge variant="error" size="sm">-{discount}%</Badge>}
+          {product.stock === 0 && (
+            <Badge variant="warning" size="sm">Out of stock</Badge>
+          )}
         </div>
 
-        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute right-3 top-3 z-20 flex flex-col gap-2 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100">
           <button
             onClick={handleWishlist}
-            className={`p-2 rounded-full shadow-md transition-colors ${
+            className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm transition focus:outline-none focus:ring-2 focus:ring-terracotta-500 ${
               isWishlisted
                 ? 'bg-red-500 text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-100'
+                : 'bg-white text-stone-700 hover:bg-stone-100'
             }`}
+            aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           >
-            <Heart className={`w-4 h-4 ${isWishlisted ? 'fill-current' : ''}`} />
+            <Heart className={`h-4 w-4 ${isWishlisted ? 'fill-current' : ''}`} />
           </button>
           <button
             onClick={handleQuickView}
-            className="p-2 bg-white rounded-full shadow-md text-gray-700 hover:bg-gray-100 transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-stone-700 shadow-sm transition hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+            aria-label="Open quick view"
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="h-4 w-4" />
           </button>
         </div>
-
-        {product.stock > 0 && (
-          <button
-            onClick={handleAddToCart}
-            className="absolute bottom-3 left-3 right-3 py-2.5 bg-terracotta-500 text-white font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 hover:bg-terracotta-600 flex items-center justify-center gap-2"
-          >
-            <ShoppingCart className="w-4 h-4" />
-            Add to Cart
-          </button>
-        )}
       </div>
 
-      <div className="p-4">
-        <p className="text-sm text-olive-600 font-medium mb-1">{product.brand}</p>
-        <h3 className="font-medium text-gray-900 mb-2 line-clamp-2 min-h-[2.5rem]">
-          {product.name}
-        </h3>
-
-        <div className="flex items-center gap-2 mb-2">
-          <Rating value={product.rating} size="sm" />
-          <span className="text-xs text-gray-500">({product.review_count})</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-gray-900">
-            ${product.price.toFixed(2)}
-          </span>
-          {product.original_price && (
-            <span className="text-sm text-gray-400 line-through">
-              ${product.original_price.toFixed(2)}
+      <div className="flex flex-1 flex-col p-4">
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <p className="truncate text-xs font-bold uppercase tracking-[0.14em] text-olive-700">
+            {product.brand}
+          </p>
+          {product.tags[0] && (
+            <span className="hidden rounded-full bg-stone-100 px-2 py-1 text-[11px] font-semibold text-stone-500 sm:inline-flex">
+              {product.tags[0]}
             </span>
           )}
         </div>
+
+        <button
+          onClick={() => onNavigate(product.slug)}
+          className="min-h-[3rem] text-left text-sm font-semibold leading-6 text-stone-950 transition hover:text-terracotta-700 focus:outline-none focus:text-terracotta-700 sm:text-base"
+        >
+          {product.name}
+        </button>
+
+        <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-xs leading-5 text-stone-500">
+          {product.short_description || product.description}
+        </p>
+
+        <div className="mt-4 flex items-center gap-2">
+          <Rating value={product.rating} size="sm" />
+          <span className="text-xs font-medium text-stone-500">
+            ({product.review_count})
+          </span>
+        </div>
+
+        <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+          <div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-lg font-bold text-stone-950">
+                ${product.price.toFixed(2)}
+              </span>
+              {product.original_price && (
+                <span className="text-sm text-stone-400 line-through">
+                  ${product.original_price.toFixed(2)}
+                </span>
+              )}
+            </div>
+            <p className="mt-1 text-xs text-stone-500">
+              {product.stock > 0 ? `${product.stock} in stock` : 'Back soon'}
+            </p>
+          </div>
+
+          <button
+            onClick={handleAddToCart}
+            disabled={product.stock === 0}
+            className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-stone-950 text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-terracotta-700 hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-stone-300"
+            aria-label={`Add ${product.name} to cart`}
+          >
+            <ShoppingCart className="hidden h-4 w-4 sm:block" />
+            <Plus className="h-4 w-4 sm:hidden" />
+          </button>
+        </div>
       </div>
-    </div>
+    </article>
   );
 }

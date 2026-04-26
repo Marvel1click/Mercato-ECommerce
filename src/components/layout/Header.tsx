@@ -7,6 +7,8 @@ import {
   Menu,
   X,
   ChevronDown,
+  Leaf,
+  PackageCheck,
 } from "lucide-react";
 import { useCart } from "../../contexts/CartContext";
 import { useWishlist } from "../../contexts/WishlistContext";
@@ -18,6 +20,12 @@ interface HeaderProps {
   currentPage: string;
   onNavigate: (page: string) => void;
 }
+
+const navItems = [
+  { label: "Featured", path: "products?featured=true" },
+  { label: "New", path: "products?new=true" },
+  { label: "Gifts", path: "products?category=gift-collections" },
+];
 
 export default function Header({ currentPage, onNavigate }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,75 +49,200 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
     e.preventDefault();
     if (searchQuery.trim()) {
       onNavigate(`products?search=${encodeURIComponent(searchQuery)}`);
+      setMobileMenuOpen(false);
     }
+  };
+
+  const navigateAndClose = (path: string) => {
+    onNavigate(path);
+    setMegaMenuOpen(false);
+    setMobileMenuOpen(false);
   };
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-md" : "bg-white/95 backdrop-blur-sm"
+      className={`sticky top-0 z-40 border-b border-stone-200 transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/95 shadow-sm backdrop-blur-xl"
+          : "bg-white/90 backdrop-blur"
       }`}
     >
-      <div className="bg-terracotta-500 text-white text-sm py-2">
-        <div className="container-custom text-center">
-          Free shipping on orders over $75 | Use code WELCOME10 for 10% off
+      <div className="bg-terracotta-700 text-xs font-semibold text-white">
+        <div className="container-custom flex min-h-8 items-center justify-center gap-3 py-2 text-center sm:justify-between">
+          <span className="hidden items-center gap-2 sm:inline-flex">
+            <PackageCheck className="h-4 w-4" />
+            Free shipping on orders $75+
+          </span>
+          <span className="inline-flex items-center gap-2">
+            Handpicked in Italy, delivered to your door
+          </span>
+          <button
+            onClick={() => onNavigate("products")}
+            className="hidden items-center gap-1 border-b border-white/50 pb-0.5 transition hover:border-white md:inline-flex"
+          >
+            Shop now
+            <span aria-hidden="true">+</span>
+          </button>
         </div>
       </div>
 
       <div className="container-custom">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between gap-4 py-4">
           <button
-            className="lg:hidden p-2 -ml-2"
+            className="rounded-lg p-2 text-stone-800 transition hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-terracotta-500 lg:hidden"
             onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
+              <X className="h-6 w-6" />
             ) : (
-              <Menu className="w-6 h-6" />
+              <Menu className="h-6 w-6" />
             )}
           </button>
 
           <button
-            onClick={() => onNavigate("home")}
-            className="flex items-center gap-2"
+            onClick={() => navigateAndClose("home")}
+            className="group flex items-center gap-3 text-left focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-4"
+            aria-label="Go to Mercato homepage"
           >
-            <div className="w-10 h-10 bg-terracotta-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">M</span>
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-stone-950 text-white shadow-sm transition group-hover:bg-terracotta-700">
+              <Leaf className="h-5 w-5" />
             </div>
-            <span className="text-2xl font-bold text-gray-900 hidden sm:block">
-              Mercato
+            <span className="hidden sm:block">
+              <span className="block text-xl font-extrabold uppercase tracking-[0.22em] text-stone-950">
+                Mercato
+              </span>
+              <span className="block text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500">
+                Italian artisan goods
+              </span>
             </span>
           </button>
 
-          <form
-            onSubmit={handleSearch}
-            className="hidden md:flex flex-1 max-w-xl mx-8"
-          >
-            <div className="relative w-full">
+          <nav className="hidden items-center gap-1 lg:flex">
+            <button
+              onClick={() => navigateAndClose("home")}
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
+                currentPage === "home"
+                  ? "bg-cream-100 text-terracotta-700"
+                  : "text-stone-700 hover:bg-stone-100 hover:text-stone-950"
+              }`}
+            >
+              Home
+            </button>
+
+            <div
+              className="relative"
+              onMouseEnter={() => setMegaMenuOpen(true)}
+              onMouseLeave={() => setMegaMenuOpen(false)}
+            >
+              <button
+                className={`flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition ${
+                  currentPage === "products"
+                    ? "bg-cream-100 text-terracotta-700"
+                    : "text-stone-700 hover:bg-stone-100 hover:text-stone-950"
+                }`}
+              >
+                Shop
+                <ChevronDown className="h-4 w-4" />
+              </button>
+
+              {isMegaMenuOpen && (
+                <div className="absolute left-1/2 top-full -translate-x-1/2 pt-4">
+                  <div className="min-w-[760px] rounded-lg border border-stone-200 bg-white p-5 shadow-strong animate-fade-in">
+                    <div className="grid grid-cols-4 gap-4">
+                      {mainCategories.map((category) => (
+                        <div
+                          key={category.id}
+                          className="rounded-lg border border-stone-200 p-3"
+                        >
+                          <button
+                            onClick={() =>
+                              navigateAndClose(`products?category=${category.slug}`)
+                            }
+                            className="group block w-full text-left"
+                          >
+                            <img
+                              src={category.image || ""}
+                              alt={category.name}
+                              className="mb-3 h-24 w-full rounded-md object-cover"
+                            />
+                            <span className="font-semibold text-stone-950 transition group-hover:text-terracotta-700">
+                              {category.name}
+                            </span>
+                          </button>
+                          <ul className="mt-3 space-y-2">
+                            {getSubcategories(category.id).slice(0, 4).map((sub) => (
+                              <li key={sub.id}>
+                                <button
+                                  onClick={() =>
+                                    navigateAndClose(`products?category=${sub.slug}`)
+                                  }
+                                  className="text-sm text-stone-500 transition hover:text-terracotta-700"
+                                >
+                                  {sub.name}
+                                </button>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-5 flex items-center justify-between border-t border-stone-200 pt-4">
+                      <p className="text-sm text-stone-500">
+                        Curated products, premium gifting, and a faster route to
+                        checkout.
+                      </p>
+                      <button
+                        onClick={() => navigateAndClose("products")}
+                        className="font-semibold text-terracotta-700 transition hover:text-terracotta-900"
+                      >
+                        View all products
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {navItems.map((item) => (
+              <button
+                key={item.label}
+                onClick={() => navigateAndClose(item.path)}
+                className="rounded-full px-4 py-2 text-sm font-semibold text-stone-700 transition hover:bg-stone-100 hover:text-stone-950"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+
+          <form onSubmit={handleSearch} className="hidden flex-1 md:block md:max-w-xs">
+            <div className="relative">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products..."
-                className="w-full pl-4 pr-12 py-2.5 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:border-transparent"
+                placeholder="Search Mercato"
+                className="h-11 w-full rounded-lg border border-stone-300 bg-white pl-4 pr-11 text-sm text-stone-900 outline-none transition placeholder:text-stone-400 focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200"
               />
               <button
                 type="submit"
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2 bg-terracotta-500 text-white rounded-full hover:bg-terracotta-600 transition-colors"
+                className="absolute right-1.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-stone-600 transition hover:bg-stone-100 hover:text-terracotta-700"
+                aria-label="Search products"
               >
-                <Search className="w-4 h-4" />
+                <Search className="h-4 w-4" />
               </button>
             </div>
           </form>
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1 sm:gap-2">
             <button
-              onClick={() => onNavigate("wishlist")}
-              className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+              onClick={() => navigateAndClose("wishlist")}
+              className="relative rounded-lg p-2 text-stone-800 transition hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+              aria-label="Open wishlist"
             >
-              <Heart className="w-6 h-6" />
+              <Heart className="h-5 w-5" />
               {wishlistItems.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-terracotta-500 text-white text-xs rounded-full flex items-center justify-center">
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-terracotta-600 px-1 text-[11px] font-bold text-white">
                   {wishlistItems.length}
                 </span>
               )}
@@ -117,11 +250,12 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
 
             <button
               onClick={() => toggleCart(true)}
-              className="relative p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="relative rounded-lg p-2 text-stone-800 transition hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+              aria-label="Open shopping cart"
             >
-              <ShoppingCart className="w-6 h-6" />
+              <ShoppingCart className="h-5 w-5" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-terracotta-500 text-white text-xs rounded-full flex items-center justify-center">
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-terracotta-600 px-1 text-[11px] font-bold text-white">
                   {itemCount}
                 </span>
               )}
@@ -129,171 +263,65 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
 
             {user ? (
               <button
-                onClick={() => onNavigate("account")}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                onClick={() => navigateAndClose("account")}
+                className="rounded-lg p-2 text-stone-800 transition hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+                aria-label="Open account"
               >
-                <User className="w-6 h-6" />
+                <User className="h-5 w-5" />
               </button>
             ) : (
               <button
                 onClick={() => setAuthModalOpen(true)}
-                className="hidden sm:flex items-center gap-2 px-4 py-2 bg-terracotta-500 text-white rounded-lg hover:bg-terracotta-600 transition-colors"
+                className="hidden h-10 items-center gap-2 rounded-lg bg-stone-950 px-4 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-terracotta-700 hover:shadow-medium sm:flex"
               >
-                <User className="w-5 h-5" />
-                <span className="font-medium">Sign In</span>
+                <User className="h-4 w-4" />
+                Account
               </button>
             )}
           </div>
         </div>
-
-        <nav className="hidden lg:flex items-center justify-center border-t border-gray-100 py-3">
-          <button
-            onClick={() => onNavigate("home")}
-            className={`px-4 py-2 font-medium transition-colors ${
-              currentPage === "home"
-                ? "text-terracotta-600"
-                : "text-gray-700 hover:text-terracotta-600"
-            }`}
-          >
-            Home
-          </button>
-
-          <div
-            className="relative"
-            onMouseEnter={() => setMegaMenuOpen(true)}
-            onMouseLeave={() => setMegaMenuOpen(false)}
-          >
-            <button
-              className={`flex items-center gap-1 px-4 py-2 font-medium transition-colors ${
-                currentPage.startsWith("products")
-                  ? "text-terracotta-600"
-                  : "text-gray-700 hover:text-terracotta-600"
-              }`}
-            >
-              Shop
-              <ChevronDown className="w-4 h-4" />
-            </button>
-
-            {isMegaMenuOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
-                <div className="bg-white rounded-xl shadow-strong p-6 min-w-[600px] animate-fade-in">
-                  <div className="grid grid-cols-4 gap-8">
-                    {mainCategories.map((category) => (
-                      <div key={category.id}>
-                        <button
-                          onClick={() => {
-                            onNavigate(`products?category=${category.slug}`);
-                            setMegaMenuOpen(false);
-                          }}
-                          className="font-semibold text-gray-900 hover:text-terracotta-600 transition-colors"
-                        >
-                          {category.name}
-                        </button>
-                        <ul className="mt-3 space-y-2">
-                          {getSubcategories(category.id).map((sub) => (
-                            <li key={sub.id}>
-                              <button
-                                onClick={() => {
-                                  onNavigate(`products?category=${sub.slug}`);
-                                  setMegaMenuOpen(false);
-                                }}
-                                className="text-sm text-gray-600 hover:text-terracotta-600 transition-colors"
-                              >
-                                {sub.name}
-                              </button>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-6 pt-6 border-t">
-                    <button
-                      onClick={() => {
-                        onNavigate("products");
-                        setMegaMenuOpen(false);
-                      }}
-                      className="text-terracotta-600 font-medium hover:text-terracotta-700"
-                    >
-                      View All Products
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <button
-            onClick={() => onNavigate("products?featured=true")}
-            className="px-4 py-2 font-medium text-gray-700 hover:text-terracotta-600 transition-colors"
-          >
-            Featured
-          </button>
-
-          <button
-            onClick={() => onNavigate("products?new=true")}
-            className="px-4 py-2 font-medium text-gray-700 hover:text-terracotta-600 transition-colors"
-          >
-            New Arrivals
-          </button>
-
-          <button
-            onClick={() => onNavigate("products?category=gift-collections")}
-            className="px-4 py-2 font-medium text-gray-700 hover:text-terracotta-600 transition-colors"
-          >
-            Gifts
-          </button>
-        </nav>
       </div>
 
       {isMobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 top-[105px] bg-white z-50 overflow-y-auto animate-fade-in">
+        <div className="absolute inset-x-0 top-full z-50 max-h-[calc(100vh-112px)] overflow-y-auto border-t border-stone-200 bg-white shadow-strong lg:hidden animate-fade-in">
           <div className="container-custom py-6">
-            <form onSubmit={handleSearch} className="mb-6">
+            <form onSubmit={handleSearch} className="mb-5">
               <div className="relative">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search products..."
-                  className="w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+                  placeholder="Search products"
+                  className="h-12 w-full rounded-lg border border-stone-300 bg-white pl-4 pr-12 outline-none focus:border-terracotta-500 focus:ring-2 focus:ring-terracotta-200"
                 />
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-terracotta-500 text-white rounded-lg"
+                  className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md bg-terracotta-600 text-white"
+                  aria-label="Search products"
                 >
-                  <Search className="w-4 h-4" />
+                  <Search className="h-4 w-4" />
                 </button>
               </div>
             </form>
 
             <nav className="space-y-1">
               <button
-                onClick={() => {
-                  onNavigate("home");
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full text-left px-4 py-3 font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
+                onClick={() => navigateAndClose("home")}
+                className="w-full rounded-lg px-4 py-3 text-left font-semibold text-stone-950 transition hover:bg-stone-100"
               >
                 Home
               </button>
               <button
-                onClick={() => {
-                  onNavigate("products");
-                  setMobileMenuOpen(false);
-                }}
-                className="w-full text-left px-4 py-3 font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
+                onClick={() => navigateAndClose("products")}
+                className="w-full rounded-lg px-4 py-3 text-left font-semibold text-stone-950 transition hover:bg-stone-100"
               >
-                All Products
+                All products
               </button>
               {mainCategories.map((category) => (
                 <button
                   key={category.id}
-                  onClick={() => {
-                    onNavigate(`products?category=${category.slug}`);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full text-left px-4 py-3 font-medium text-gray-900 hover:bg-gray-50 rounded-lg"
+                  onClick={() => navigateAndClose(`products?category=${category.slug}`)}
+                  className="w-full rounded-lg px-4 py-3 text-left font-semibold text-stone-950 transition hover:bg-stone-100"
                 >
                   {category.name}
                 </button>
@@ -304,9 +332,9 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                     setAuthModalOpen(true);
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-4 py-3 font-medium text-terracotta-600 hover:bg-terracotta-50 rounded-lg"
+                  className="w-full rounded-lg px-4 py-3 text-left font-semibold text-terracotta-700 transition hover:bg-terracotta-50"
                 >
-                  Sign In / Register
+                  Sign in or register
                 </button>
               )}
             </nav>

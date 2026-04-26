@@ -1,7 +1,12 @@
 import { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
-import type { Product } from '../types/database';
+import type { Database, Product } from '../types/database';
 import { useAuth } from './AuthContext';
 import { supabase } from '../lib/supabase';
+
+type WishlistInsert = Database['public']['Tables']['wishlists']['Insert'];
+type WishlistProductRow = {
+  products: Product | null;
+};
 
 interface WishlistState {
   items: Product[];
@@ -66,8 +71,8 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
     if (data) {
       const products = data
-        .map((item: any) => item.products as Product)
-        .filter(Boolean);
+        .map((item) => (item as WishlistProductRow).products)
+        .filter((product): product is Product => Boolean(product));
       dispatch({ type: 'SET_ITEMS', items: products });
     }
     dispatch({ type: 'SET_LOADING', loading: false });
@@ -91,10 +96,11 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
 
   async function addToWishlist(product: Product) {
     if (user) {
-      await supabase.from('wishlists').insert({
+      const wishlistItem: WishlistInsert = {
         user_id: user.id,
         product_id: product.id,
-      } as any);
+      };
+      await supabase.from('wishlists').insert(wishlistItem as never);
     } else {
       const newItems = [...state.items, product];
       saveToStorage(newItems);

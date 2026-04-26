@@ -9,13 +9,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = '', variant = 'primary', size = 'md', loading, children, disabled, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
+    const baseStyles = 'inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
 
     const variants = {
-      primary: 'bg-terracotta-500 text-white hover:bg-terracotta-600 active:bg-terracotta-700',
-      secondary: 'bg-olive-500 text-white hover:bg-olive-600 active:bg-olive-700',
-      outline: 'border-2 border-terracotta-500 text-terracotta-500 hover:bg-terracotta-50 active:bg-terracotta-100',
-      ghost: 'text-gray-700 hover:bg-gray-100 active:bg-gray-200',
+      primary: 'bg-terracotta-600 text-white shadow-sm hover:-translate-y-0.5 hover:bg-terracotta-700 hover:shadow-medium active:translate-y-0 active:bg-terracotta-800',
+      secondary: 'bg-olive-600 text-white shadow-sm hover:-translate-y-0.5 hover:bg-olive-700 hover:shadow-medium active:translate-y-0 active:bg-olive-800',
+      outline: 'border border-terracotta-500 text-terracotta-700 hover:-translate-y-0.5 hover:bg-terracotta-50 active:translate-y-0 active:bg-terracotta-100',
+      ghost: 'text-stone-700 hover:bg-stone-100 active:bg-stone-200',
     };
 
     const sizes = {

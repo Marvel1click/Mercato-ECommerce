@@ -1,7 +1,9 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { User, Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
-import type { Profile } from '../types/database';
+import type { Database, Profile } from '../types/database';
+
+type ProfileUpdate = Database['public']['Tables']['profiles']['Update'];
 
 interface AuthContextType {
   user: User | null;
@@ -83,11 +85,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function updateProfile(updates: Partial<Profile>) {
     if (!user) return { error: new Error('Not authenticated') };
 
-    const updateData: any = { ...updates, updated_at: new Date().toISOString() };
+    const updateData: ProfileUpdate = {
+      ...updates,
+      updated_at: new Date().toISOString(),
+    };
     const { error } = await supabase
       .from('profiles')
-      // @ts-expect-error - Supabase generated types are too strict
-      .update(updateData)
+      .update(updateData as never)
       .eq('id', user.id);
 
     if (!error) {

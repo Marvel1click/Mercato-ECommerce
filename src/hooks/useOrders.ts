@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import type { Order, OrderItem } from '../types/database';
+import type { Database, Order, OrderItem } from '../types/database';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 
 interface OrderWithItems extends Order {
   order_items: OrderItem[];
 }
+
+type OrderInsert = Database['public']['Tables']['orders']['Insert'];
+type OrderItemInsert = Database['public']['Tables']['order_items']['Insert'];
 
 export function useOrders() {
   const [orders, setOrders] = useState<OrderWithItems[]>([]);
@@ -96,30 +99,33 @@ export function useCreateOrder() {
 
     try {
       const orderNumber = `MRC-${Date.now().toString(36).toUpperCase()}`;
+      const orderData: OrderInsert = {
+        user_id: user.id,
+        order_number: orderNumber,
+        status: 'pending',
+        subtotal,
+        shipping_cost: shipping,
+        tax,
+        discount,
+        total,
+        shipping_address: shippingAddress,
+        payment_method: paymentMethod,
+        payment_status: 'paid',
+        shipping_method: shippingMethod,
+      };
 
       const { data: order, error: orderError } = await supabase
         .from('orders')
-        .insert({
-          user_id: user.id,
-          order_number: orderNumber,
-          status: 'pending',
-          subtotal,
-          shipping_cost: shipping,
-          tax,
-          discount,
-          total,
-          shipping_address: shippingAddress,
-          payment_method: paymentMethod,
-          payment_status: 'paid',
-          shipping_method: shippingMethod,
-        } as any)
+        .insert(orderData as never)
         .select()
         .single();
 
       if (orderError) throw orderError;
+      const createdOrder = order as unknown as Order | null;
+      if (!createdOrder) throw new Error('Failed to create order');
 
-      const orderItems = items.map((item) => ({
-        order_id: (order as any).id,
+      const orderItems: OrderItemInsert[] = items.map((item) => ({
+        order_id: createdOrder.id,
         product_id: item.product.id,
         product_name: item.product.name,
         product_image: item.product.images[0] || null,
@@ -129,12 +135,12 @@ export function useCreateOrder() {
 
       const { error: itemsError } = await supabase
         .from('order_items')
-        .insert(orderItems as any);
+        .insert(orderItems as never[]);
 
       if (itemsError) throw itemsError;
 
       clearCart();
-      return order;
+      return createdOrder;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to create order');
       return null;

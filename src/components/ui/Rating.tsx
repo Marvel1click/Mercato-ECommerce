@@ -35,14 +35,8 @@ export default function Rating({
         const filled = index < Math.floor(value);
         const partial = index === Math.floor(value) && value % 1 > 0;
 
-        return (
-          <button
-            key={index}
-            type="button"
-            disabled={!interactive}
-            onClick={() => onChange?.(index + 1)}
-            className={`relative ${interactive ? 'cursor-pointer hover:scale-110 transition-transform' : 'cursor-default'}`}
-          >
+        const star = (
+          <>
             <Star
               className={`${sizes[size]} ${
                 filled ? 'fill-amber-400 text-amber-400' : 'fill-gray-200 text-gray-200'
@@ -56,7 +50,23 @@ export default function Rating({
                 }}
               />
             )}
+          </>
+        );
+
+        return interactive ? (
+          <button
+            key={index}
+            type="button"
+            onClick={() => onChange?.(index + 1)}
+            className="relative cursor-pointer transition-transform hover:scale-110"
+            aria-label={`${index + 1} star${index === 0 ? '' : 's'}`}
+          >
+            {star}
           </button>
+        ) : (
+          <span key={index} className="relative" aria-hidden="true">
+            {star}
+          </span>
         );
       })}
       {showValue && (
