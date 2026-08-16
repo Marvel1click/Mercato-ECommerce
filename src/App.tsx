@@ -16,6 +16,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import WishlistPage from "./pages/WishlistPage";
 import AccountPage from "./pages/AccountPage";
+import InfoPage from "./pages/InfoPage";
 
 type PageType =
   | "home"
@@ -23,7 +24,8 @@ type PageType =
   | "product"
   | "checkout"
   | "wishlist"
-  | "account";
+  | "account"
+  | "info";
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<PageType>("home");
@@ -73,6 +75,8 @@ function AppContent() {
         return <WishlistPage onNavigate={navigate} />;
       case "account":
         return <AccountPage onNavigate={navigate} section={pageParams} />;
+      case "info":
+        return <InfoPage slug={pageParams} onNavigate={navigate} />;
       default:
         return <HomePage onNavigate={navigate} />;
     }

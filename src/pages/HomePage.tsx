@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import {
   ArrowRight,
   Award,
@@ -103,6 +103,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   });
   const { mainCategories, loading: categoriesLoading } = useCategories();
   const newArrivalsRef = useRef<HTMLDivElement>(null);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterJoined, setNewsletterJoined] = useState(false);
 
   const scrollNewArrivals = (direction: 'left' | 'right') => {
     newArrivalsRef.current?.scrollBy({
@@ -504,22 +506,37 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               Subscribe for seasonal edits, hosting guides, exclusive bundles,
               and first access to limited maker drops.
             </p>
-            <form className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="min-h-[52px] flex-1 rounded-full border border-white/20 bg-white px-5 text-stone-950 placeholder-stone-500 outline-none transition focus:ring-2 focus:ring-white"
-              />
-              <Button
-                type="submit"
-                className="min-h-[52px] bg-wine-950 text-white hover:bg-wine-900"
+            {newsletterJoined ? (
+              <div className="mx-auto mt-8 max-w-lg rounded-2xl border border-white/25 bg-white/10 px-6 py-5" role="status">
+                <p className="font-display text-2xl font-semibold">Benvenuto to the list.</p>
+                <p className="mt-1 text-sm text-terracotta-100">Your first market letter will arrive soon.</p>
+              </div>
+            ) : (
+              <form
+                className="mx-auto mt-8 flex max-w-lg flex-col gap-3 sm:flex-row"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (!newsletterEmail.trim()) return;
+                  setNewsletterJoined(true);
+                  setNewsletterEmail('');
+                }}
               >
-                Subscribe
-              </Button>
-            </form>
-            <p className="mt-4 text-sm text-terracotta-100">
-              Includes 10% off the first order and early access to gift sets.
-            </p>
+                <label htmlFor="home-newsletter" className="sr-only">Email address</label>
+                <input
+                  id="home-newsletter"
+                  type="email"
+                  required
+                  value={newsletterEmail}
+                  onChange={(event) => setNewsletterEmail(event.target.value)}
+                  placeholder="Enter your email"
+                  className="min-h-[52px] flex-1 rounded-full border border-white/20 bg-white px-5 text-stone-950 placeholder-stone-500 outline-none transition focus:ring-2 focus:ring-white"
+                />
+                <Button type="submit" className="min-h-[52px] bg-wine-950 text-white hover:bg-wine-900">
+                  Subscribe
+                </Button>
+              </form>
+            )}
+            <p className="mt-4 text-sm text-terracotta-100">Includes 10% off the first order and early access to gift sets.</p>
           </div>
         </div>
       </section>
