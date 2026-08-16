@@ -7,12 +7,12 @@ export default function ToastContainer() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
+    <div className="fixed bottom-4 left-4 right-4 z-50 flex flex-col items-end gap-2 sm:left-auto" aria-live="polite">
       {toasts.map((toast) => (
         <div
           key={toast.id}
           className={`
-            flex items-center gap-3 px-4 py-3 rounded-lg shadow-strong min-w-[300px] animate-slide-in-right
+            flex w-full items-center gap-3 rounded-2xl px-4 py-3 shadow-strong sm:min-w-[320px] sm:max-w-md animate-slide-in-right
             ${toast.type === 'success' ? 'bg-green-50 border border-green-200' : ''}
             ${toast.type === 'error' ? 'bg-red-50 border border-red-200' : ''}
             ${toast.type === 'info' ? 'bg-blue-50 border border-blue-200' : ''}
@@ -31,6 +31,7 @@ export default function ToastContainer() {
           <button
             onClick={() => dismissToast(toast.id)}
             className="p-1 hover:bg-black/5 rounded transition-colors"
+            aria-label="Dismiss notification"
           >
             <X className="w-4 h-4" />
           </button>

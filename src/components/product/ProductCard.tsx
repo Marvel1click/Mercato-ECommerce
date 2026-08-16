@@ -43,16 +43,16 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
 
   return (
     <article
-      className="group flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-terracotta-200 hover:shadow-medium focus-within:border-terracotta-300"
+      className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-stone-200/80 bg-white shadow-soft transition duration-500 hover:-translate-y-1.5 hover:border-terracotta-200 hover:shadow-strong focus-within:border-terracotta-300"
     >
-      <div className="relative aspect-[4/4.15] overflow-hidden bg-stone-100">
+      <div className="relative aspect-[4/4.3] overflow-hidden bg-cream-100">
         {!imageLoaded && (
-          <div className="absolute inset-0 animate-pulse bg-stone-200" />
+          <div className="absolute inset-0 animate-pulse bg-cream-200" />
         )}
         <img
           src={product.images[0]}
           alt={product.name}
-          className={`h-full w-full object-cover transition duration-700 group-hover:scale-105 ${
+          className={`h-full w-full object-cover transition duration-1000 ease-out group-hover:scale-[1.045] ${
             imageLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={() => setImageLoaded(true)}
@@ -72,13 +72,13 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
           )}
         </div>
 
-        <div className="absolute right-3 top-3 z-20 flex flex-col gap-2 opacity-100 transition sm:opacity-0 sm:group-hover:opacity-100">
+        <div className="absolute right-3 top-3 z-20 flex flex-col gap-2 opacity-100 transition duration-300 sm:translate-x-2 sm:opacity-0 sm:group-hover:translate-x-0 sm:group-hover:opacity-100 sm:group-focus-within:translate-x-0 sm:group-focus-within:opacity-100">
           <button
             onClick={handleWishlist}
             className={`flex h-9 w-9 items-center justify-center rounded-full shadow-sm transition focus:outline-none focus:ring-2 focus:ring-terracotta-500 ${
               isWishlisted
-                ? 'bg-red-500 text-white'
-                : 'bg-white text-stone-700 hover:bg-stone-100'
+                ? 'bg-wine-900 text-white'
+                : 'bg-white/95 text-stone-700 backdrop-blur hover:bg-wine-950 hover:text-white'
             }`}
             aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
           >
@@ -86,7 +86,7 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
           </button>
           <button
             onClick={handleQuickView}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-stone-700 shadow-sm transition hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-stone-700 shadow-sm backdrop-blur transition hover:bg-wine-950 hover:text-white focus:outline-none focus:ring-2 focus:ring-terracotta-500"
             aria-label="Open quick view"
           >
             <Eye className="h-4 w-4" />
@@ -94,13 +94,13 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-4">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <p className="truncate text-xs font-bold uppercase tracking-[0.14em] text-olive-700">
+          <p className="truncate text-[10px] font-bold uppercase tracking-[0.2em] text-terracotta-700">
             {product.brand}
           </p>
           {product.tags[0] && (
-            <span className="hidden rounded-full bg-stone-100 px-2 py-1 text-[11px] font-semibold text-stone-500 sm:inline-flex">
+            <span className="hidden rounded-full bg-cream-100 px-2.5 py-1 text-[10px] font-semibold text-stone-500 sm:inline-flex">
               {product.tags[0]}
             </span>
           )}
@@ -108,12 +108,12 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
 
         <button
           onClick={() => onNavigate(product.slug)}
-          className="min-h-[3rem] text-left text-sm font-semibold leading-6 text-stone-950 transition hover:text-terracotta-700 focus:outline-none focus:text-terracotta-700 sm:text-base"
+          className="min-h-[3rem] text-left font-display text-xl font-semibold leading-6 text-wine-950 transition hover:text-terracotta-700 focus:outline-none focus:text-terracotta-700"
         >
           {product.name}
         </button>
 
-        <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-xs leading-5 text-stone-500">
+        <p className="mt-2 line-clamp-2 min-h-[2.5rem] text-xs leading-5 text-stone-500 sm:text-sm">
           {product.short_description || product.description}
         </p>
 
@@ -127,7 +127,7 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
         <div className="mt-auto flex items-end justify-between gap-3 pt-5">
           <div>
             <div className="flex items-baseline gap-2">
-              <span className="text-lg font-bold text-stone-950">
+              <span className="font-display text-2xl font-semibold text-wine-950">
                 ${product.price.toFixed(2)}
               </span>
               {product.original_price && (
@@ -144,7 +144,7 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
           <button
             onClick={handleAddToCart}
             disabled={product.stock === 0}
-            className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg bg-stone-950 text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-terracotta-700 hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-stone-300"
+            className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-wine-950 text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-terracotta-700 hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-stone-300"
             aria-label={`Add ${product.name} to cart`}
           >
             <ShoppingCart className="hidden h-4 w-4 sm:block" />

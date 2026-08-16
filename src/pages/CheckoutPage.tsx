@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, CreditCard, Truck, ShoppingBag, ArrowLeft } from 'lucide-react';
+import { Check, CreditCard, Truck, ShoppingBag, ArrowLeft, Leaf, ShieldCheck } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useUI } from '../contexts/UIContext';
@@ -64,12 +64,13 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
 
   if (items.length === 0 && !orderComplete) {
     return (
-      <div className="min-h-screen bg-cream-50 flex items-center justify-center">
-        <div className="text-center">
-          <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-          <p className="text-gray-500 mb-6">Add some items to proceed to checkout</p>
-          <Button onClick={() => onNavigate('products')}>Browse Products</Button>
+      <div className="paper-texture flex min-h-[70vh] items-center justify-center px-4">
+        <div className="surface-card max-w-lg px-8 py-12 text-center">
+          <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-wine-950 text-cream-100"><ShoppingBag className="h-8 w-8" /></div>
+          <p className="eyebrow">Your market bag</p>
+          <h2 className="editorial-title mt-3 text-4xl">There is nothing to wrap just yet.</h2>
+          <p className="mb-7 mt-4 text-sm leading-6 text-stone-500">Choose a few Italian favourites before heading to checkout.</p>
+          <Button onClick={() => onNavigate('products')}>Return to the market</Button>
         </div>
       </div>
     );
@@ -117,20 +118,21 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
 
   if (orderComplete) {
     return (
-      <div className="min-h-screen bg-cream-50 py-16">
+      <div className="paper-texture min-h-screen py-16">
         <div className="container-custom max-w-2xl">
-          <div className="bg-white rounded-2xl shadow-soft p-8 text-center">
-            <div className="w-16 h-16 bg-olive-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="surface-card p-8 text-center md:p-12">
+            <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-olive-100">
               <Check className="w-8 h-8 text-olive-600" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Order Confirmed!
+            <p className="eyebrow">Grazie mille</p>
+            <h1 className="editorial-title mt-3 text-5xl">
+              Your order is confirmed.
             </h1>
             <p className="text-gray-600 mb-6">
               Thank you for your order. We've sent a confirmation email to{' '}
               {shippingForm.email}
             </p>
-            <div className="bg-cream-50 rounded-lg p-4 mb-8">
+            <div className="mb-8 rounded-2xl border border-stone-200 bg-cream-50 p-4">
               <p className="text-sm text-gray-500">Order Number</p>
               <p className="text-2xl font-bold text-gray-900">{orderNumber}</p>
             </div>
@@ -149,46 +151,51 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-cream-50">
-      <div className="bg-white border-b">
-        <div className="container-custom py-4">
+    <div className="page-shell">
+      <div className="border-b border-stone-200 bg-white/80">
+        <div className="container-custom flex items-center justify-between py-4">
           <button
             onClick={() => onNavigate('home')}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-2 text-sm font-semibold text-stone-600 transition hover:text-terracotta-700"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back to Shopping
+            Back to shopping
           </button>
+          <button onClick={() => onNavigate('home')} className="flex items-center gap-2" aria-label="Mercato home">
+            <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-wine-950 text-cream-100"><Leaf className="h-4 w-4" /><span className="absolute inset-1 rounded-full border border-white/20" /></span>
+            <span className="hidden font-display text-2xl font-semibold text-wine-950 sm:block">Mercato</span>
+          </button>
+          <span className="hidden items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-stone-500 sm:flex"><ShieldCheck className="h-4 w-4 text-olive-600" /> Secure checkout</span>
         </div>
       </div>
 
-      <div className="container-custom py-8">
-        <div className="max-w-4xl mx-auto mb-8">
-          <div className="flex items-center justify-center">
+      <div className="container-custom py-10 md:py-14">
+        <div className="mx-auto mb-10 max-w-4xl">
+          <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:justify-center">
             {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center">
+              <div key={step.id} className="flex flex-col items-center gap-2 sm:flex-row sm:gap-0">
                 <div
-                  className={`flex items-center justify-center w-10 h-10 rounded-full font-medium ${
+                  className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${
                     currentStep > step.id
-                      ? 'bg-olive-500 text-white'
+                      ? 'bg-olive-700 text-white'
                       : currentStep === step.id
-                      ? 'bg-terracotta-500 text-white'
-                      : 'bg-gray-200 text-gray-500'
+                      ? 'bg-wine-950 text-white'
+                      : 'bg-stone-200 text-stone-500'
                   }`}
                 >
                   {currentStep > step.id ? <Check className="w-5 h-5" /> : step.id}
                 </div>
                 <span
-                  className={`ml-2 font-medium ${
-                    currentStep >= step.id ? 'text-gray-900' : 'text-gray-400'
+                  className={`text-xs font-medium sm:ml-2 sm:text-sm ${
+                    currentStep >= step.id ? 'text-wine-950' : 'text-stone-400'
                   }`}
                 >
                   {step.name}
                 </span>
                 {index < steps.length - 1 && (
                   <div
-                    className={`w-16 md:w-24 h-0.5 mx-4 ${
-                      currentStep > step.id ? 'bg-olive-500' : 'bg-gray-200'
+                    className={`mx-4 hidden h-0.5 w-16 sm:block md:w-24 ${
+                      currentStep > step.id ? 'bg-olive-600' : 'bg-stone-200'
                     }`}
                   />
                 )}
@@ -197,12 +204,13 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             {currentStep === 1 && (
-              <div className="bg-white rounded-2xl shadow-soft p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  Shipping Information
+              <div className="surface-card p-6 md:p-8">
+                <p className="eyebrow">Step one</p>
+                <h2 className="mb-7 mt-2 font-display text-3xl font-semibold text-wine-950">
+                  Where should we send it?
                 </h2>
                 <div className="grid grid-cols-2 gap-4">
                   <Input
@@ -228,7 +236,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                     onChange={(e) =>
                       setShippingForm({ ...shippingForm, email: e.target.value })
                     }
-                    className="col-span-2"
+                    containerClassName="col-span-2"
                     required
                   />
                   <Input
@@ -238,7 +246,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                     onChange={(e) =>
                       setShippingForm({ ...shippingForm, phone: e.target.value })
                     }
-                    className="col-span-2"
+                    containerClassName="col-span-2"
                   />
                   <Input
                     label="Street Address"
@@ -246,7 +254,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                     onChange={(e) =>
                       setShippingForm({ ...shippingForm, street: e.target.value })
                     }
-                    className="col-span-2"
+                    containerClassName="col-span-2"
                     required
                   />
                   <Input
@@ -255,7 +263,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                     onChange={(e) =>
                       setShippingForm({ ...shippingForm, apartment: e.target.value })
                     }
-                    className="col-span-2"
+                    containerClassName="col-span-2"
                   />
                   <Input
                     label="City"
@@ -286,17 +294,17 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                 </div>
 
                 <div className="mt-8">
-                  <h3 className="font-semibold text-gray-900 mb-4">
-                    Shipping Method
+                  <h3 className="mb-4 font-display text-2xl font-semibold text-wine-950">
+                    Choose a delivery pace
                   </h3>
                   <div className="space-y-3">
                     {shippingOptions.map((option) => (
                       <label
                         key={option.id}
-                        className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors ${
+                        className={`flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-colors ${
                           selectedShipping.id === option.id
                             ? 'border-terracotta-500 bg-terracotta-50'
-                            : 'border-gray-200 hover:border-gray-300'
+                            : 'border-stone-200 hover:border-terracotta-300'
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -331,9 +339,10 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
             )}
 
             {currentStep === 2 && (
-              <div className="bg-white rounded-2xl shadow-soft p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
-                  Payment Information
+              <div className="surface-card p-6 md:p-8">
+                <p className="eyebrow">Step two</p>
+                <h2 className="mb-7 mt-2 font-display text-3xl font-semibold text-wine-950">
+                  Secure payment
                 </h2>
                 <div className="space-y-4">
                   <Input
@@ -384,9 +393,10 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
 
             {currentStep === 3 && (
               <div className="space-y-6">
-                <div className="bg-white rounded-2xl shadow-soft p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    Review Your Order
+                <div className="surface-card p-6 md:p-8">
+                  <p className="eyebrow">Final step</p>
+                  <h2 className="mb-5 mt-2 font-display text-3xl font-semibold text-wine-950">
+                    One last look
                   </h2>
 
                   <div className="grid md:grid-cols-2 gap-6">
@@ -432,8 +442,8 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-2xl shadow-soft p-6">
-                  <h3 className="font-medium text-gray-900 mb-4">Order Items</h3>
+                <div className="surface-card p-6 md:p-8">
+                  <h3 className="mb-4 font-display text-2xl font-semibold text-wine-950">Your market bag</h3>
                   <div className="space-y-4">
                     {items.map((item) => (
                       <div key={item.product.id} className="flex gap-4">
@@ -477,8 +487,9 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-soft p-6 sticky top-24">
-              <h3 className="font-bold text-gray-900 mb-4">Order Summary</h3>
+            <div className="surface-card sticky top-8 p-6">
+              <p className="eyebrow">The details</p>
+              <h3 className="mb-5 mt-2 font-display text-3xl font-semibold text-wine-950">Order summary</h3>
 
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
@@ -514,7 +525,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                       value={couponCode}
                       onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                       placeholder="Coupon code"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      className="min-w-0 flex-1 rounded-full border border-stone-300 bg-cream-50 px-4 py-2 text-sm"
                     />
                     <Button
                       variant="outline"
@@ -568,7 +579,7 @@ export default function CheckoutPage({ onNavigate }: CheckoutPageProps) {
                   <span>Tax</span>
                   <span>${tax.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold pt-2 border-t">
+                <div className="flex justify-between border-t border-stone-200 pt-3 font-display text-2xl font-semibold text-wine-950">
                   <span>Total</span>
                   <span>${finalTotal.toFixed(2)}</span>
                 </div>

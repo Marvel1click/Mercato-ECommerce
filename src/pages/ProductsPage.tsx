@@ -93,17 +93,17 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
     inStock;
 
   return (
-    <div className="min-h-screen bg-cream-50">
-      <div className="bg-white border-b">
+    <div className="page-shell">
+      <div className="border-b border-stone-200 bg-white/70">
         <div className="container-custom py-4">
           <nav className="flex items-center gap-2 text-sm">
             <button
               onClick={() => onNavigate('home')}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-stone-500 transition hover:text-terracotta-700"
             >
               Home
             </button>
-            <span className="text-gray-400">/</span>
+            <span className="text-stone-300">/</span>
             {currentCategory?.parent_id && (
               <>
                 <button
@@ -113,48 +113,54 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
                     );
                     if (parent) onNavigate(`products?category=${parent.slug}`);
                   }}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="text-stone-500 transition hover:text-terracotta-700"
                 >
                   {categories.find((c) => c.id === currentCategory.parent_id)?.name}
                 </button>
-                <span className="text-gray-400">/</span>
+                <span className="text-stone-300">/</span>
               </>
             )}
-            <span className="text-gray-900 font-medium">{pageTitle}</span>
+            <span className="font-medium text-wine-950">{pageTitle}</span>
           </nav>
         </div>
       </div>
 
-      <div className="container-custom py-8">
-        <div className="flex items-center justify-between mb-8">
+      <div className="paper-texture border-b border-stone-200/70">
+        <div className="container-custom flex flex-col justify-between gap-7 py-10 md:flex-row md:items-end md:py-14">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">{pageTitle}</h1>
-            <p className="text-gray-600 mt-1">{totalCount} products</p>
+            <p className="eyebrow">The Mercato collection</p>
+            <h1 className="editorial-title mt-3 text-5xl md:text-7xl">{pageTitle}</h1>
+            <p className="mt-3 max-w-xl text-sm leading-6 text-stone-600">
+              Thoughtfully sourced pantry goods, tableware and gifts from independent Italian makers.
+              <span className="ml-2 font-semibold text-wine-950">{totalCount} pieces</span>
+            </p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setFilterOpen(true)}
-              className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="flex min-h-11 items-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-2 text-sm font-semibold text-stone-800 shadow-sm transition hover:border-terracotta-400 lg:hidden"
             >
               <SlidersHorizontal className="w-5 h-5" />
               Filters
             </button>
 
-            <div className="hidden sm:flex items-center gap-2 border border-gray-300 rounded-lg p-1">
+            <div className="hidden items-center gap-1 rounded-full border border-stone-300 bg-white p-1 sm:flex">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${
-                  viewMode === 'grid' ? 'bg-gray-100' : 'hover:bg-gray-50'
+                className={`rounded-full p-2 ${
+                  viewMode === 'grid' ? 'bg-wine-950 text-white' : 'hover:bg-cream-100'
                 }`}
+                aria-label="Grid view"
               >
                 <Grid className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${
-                  viewMode === 'list' ? 'bg-gray-100' : 'hover:bg-gray-50'
+                className={`rounded-full p-2 ${
+                  viewMode === 'list' ? 'bg-wine-950 text-white' : 'hover:bg-cream-100'
                 }`}
+                aria-label="List view"
               >
                 <List className="w-5 h-5" />
               </button>
@@ -164,7 +170,7 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
               <select
                 value={sort}
                 onChange={(e) => setSort(e.target.value as SortOption)}
-                className="appearance-none pl-4 pr-10 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+                className="min-h-11 appearance-none rounded-full border border-stone-300 bg-white py-2 pl-4 pr-10 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-terracotta-500"
               >
                 {sortOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -172,16 +178,18 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" />
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-stone-400" />
             </div>
           </div>
         </div>
+      </div>
 
+      <div className="container-custom py-10 md:py-14">
         <div className="flex gap-8">
           <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="bg-white rounded-xl shadow-soft p-6 sticky top-24">
+            <div className="surface-card sticky top-36 p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="font-semibold text-gray-900">Filters</h2>
+                <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-wine-950"><SlidersHorizontal className="h-4 w-4 text-terracotta-700" /> Refine</h2>
                 {hasActiveFilters && (
                   <button
                     onClick={clearFilters}
@@ -194,15 +202,15 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
 
               <div className="space-y-6">
                 <div>
-                  <h3 className="font-medium text-gray-900 mb-3">Categories</h3>
+                  <h3 className="eyebrow mb-3">Departments</h3>
                   <ul className="space-y-2">
                     <li>
                       <button
                         onClick={() => onNavigate('products')}
                         className={`text-sm ${
                           !categorySlug
-                            ? 'text-terracotta-600 font-medium'
-                            : 'text-gray-600 hover:text-gray-900'
+                            ? 'font-semibold text-terracotta-700'
+                            : 'text-stone-600 hover:text-wine-950'
                         }`}
                       >
                         All Products
@@ -246,7 +254,7 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
                 </div>
 
                 <div className="border-t pt-6">
-                  <h3 className="font-medium text-gray-900 mb-3">Price Range</h3>
+                  <h3 className="eyebrow mb-3">Price range</h3>
                   <div className="flex items-center gap-2">
                     <input
                       type="number"
@@ -254,7 +262,7 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
                       onChange={(e) =>
                         setPriceRange([Number(e.target.value), priceRange[1]])
                       }
-                      className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                      className="w-20 rounded-lg border border-stone-300 bg-cream-50 px-2 py-1.5 text-sm"
                       placeholder="Min"
                     />
                     <span className="text-gray-400">-</span>
@@ -264,14 +272,14 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
                       onChange={(e) =>
                         setPriceRange([priceRange[0], Number(e.target.value)])
                       }
-                      className="w-20 px-2 py-1 border border-gray-300 rounded text-sm"
+                      className="w-20 rounded-lg border border-stone-300 bg-cream-50 px-2 py-1.5 text-sm"
                       placeholder="Max"
                     />
                   </div>
                 </div>
 
                 <div className="border-t pt-6">
-                  <h3 className="font-medium text-gray-900 mb-3">Brands</h3>
+                  <h3 className="eyebrow mb-3">Makers</h3>
                   <div className="space-y-2 max-h-48 overflow-y-auto">
                     {brands.map((brand) => (
                       <label key={brand} className="flex items-center gap-2 cursor-pointer">
@@ -288,7 +296,7 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
                 </div>
 
                 <div className="border-t pt-6">
-                  <h3 className="font-medium text-gray-900 mb-3">Rating</h3>
+                  <h3 className="eyebrow mb-3">Customer rating</h3>
                   <div className="space-y-2">
                     {[4, 3, 2, 1].map((rating) => (
                       <button
@@ -376,13 +384,13 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
             {loading ? (
               <ProductGridSkeleton count={8} />
             ) : products.length === 0 ? (
-              <div className="text-center py-16">
-                <Filter className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-xl font-medium text-gray-900 mb-2">
-                  No products found
+              <div className="surface-card py-16 text-center">
+                <Filter className="mx-auto mb-4 h-12 w-12 text-stone-300" />
+                <h3 className="font-display text-3xl font-semibold text-wine-950">
+                  Nothing on this stall just yet
                 </h3>
-                <p className="text-gray-500 mb-6">
-                  Try adjusting your filters or search query
+                <p className="mb-6 mt-2 text-stone-500">
+                  Try widening your search or clearing a filter.
                 </p>
                 <Button onClick={clearFilters}>Clear Filters</Button>
               </div>
@@ -390,7 +398,7 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
               <div
                 className={
                   viewMode === 'grid'
-                    ? 'grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6'
+                    ? 'grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-6'
                     : 'space-y-4'
                 }
               >
@@ -409,11 +417,11 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
 
       {isFilterOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="fixed inset-0 bg-black/50" onClick={() => setFilterOpen(false)} />
-          <div className="fixed right-0 top-0 h-full w-80 bg-white shadow-strong animate-slide-in-right overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b px-4 py-3 flex items-center justify-between">
-              <h2 className="font-semibold">Filters</h2>
-              <button onClick={() => setFilterOpen(false)}>
+          <div className="fixed inset-0 bg-wine-950/70 backdrop-blur-sm" onClick={() => setFilterOpen(false)} />
+          <div className="fixed right-0 top-0 h-full w-80 overflow-y-auto bg-cream-50 shadow-strong animate-slide-in-right">
+            <div className="sticky top-0 flex items-center justify-between border-b border-stone-200 bg-cream-50 px-4 py-4">
+              <h2 className="font-display text-2xl font-semibold text-wine-950">Refine the market</h2>
+              <button onClick={() => setFilterOpen(false)} className="rounded-full border border-stone-200 bg-white p-2" aria-label="Close filters">
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -468,7 +476,7 @@ export default function ProductsPage({ onNavigate, searchParams }: ProductsPageP
                 </div>
               </div>
             </div>
-            <div className="sticky bottom-0 bg-white border-t p-4 flex gap-3">
+            <div className="sticky bottom-0 flex gap-3 border-t border-stone-200 bg-white p-4">
               <Button variant="outline" onClick={clearFilters} className="flex-1">
                 Clear
               </Button>

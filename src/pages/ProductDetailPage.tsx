@@ -83,6 +83,25 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
     showToast(isWishlisted ? 'Removed from wishlist' : 'Added to wishlist');
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: product.name,
+      text: product.short_description || product.name,
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else {
+        await navigator.clipboard.writeText(window.location.href);
+        showToast('Product link copied');
+      }
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') return;
+      showToast('Unable to share this product', 'error');
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
@@ -110,24 +129,24 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="bg-cream-50 border-b">
+    <div className="page-shell">
+      <div className="border-b border-stone-200 bg-white/70">
         <div className="container-custom py-4">
           <button
             onClick={() => onNavigate('products')}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-2 text-sm font-semibold text-stone-500 transition hover:text-terracotta-700"
           >
             <ChevronLeft className="w-5 h-5" />
-            Back to Products
+            Back to the market
           </button>
         </div>
       </div>
 
-      <div className="container-custom py-8">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+      <div className="container-custom py-10 md:py-14">
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div className="space-y-4">
             <div
-              className="aspect-square rounded-2xl overflow-hidden bg-gray-100 relative cursor-zoom-in"
+              className="relative aspect-square cursor-zoom-in overflow-hidden rounded-[2rem] border border-stone-200 bg-cream-100 shadow-soft"
               onMouseEnter={() => setIsZoomed(true)}
               onMouseLeave={() => setIsZoomed(false)}
               onMouseMove={handleMouseMove}
@@ -152,7 +171,7 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-colors ${
+                    className={`h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-colors ${
                       selectedImage === index
                         ? 'border-terracotta-500'
                         : 'border-transparent hover:border-gray-300'
@@ -179,16 +198,16 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
               )}
             </div>
 
-            <p className="text-olive-600 font-medium">{product.brand}</p>
-            <h1 className="text-3xl font-bold text-gray-900 mt-1">{product.name}</h1>
+            <p className="eyebrow">{product.brand}</p>
+            <h1 className="editorial-title mt-3 text-5xl md:text-6xl">{product.name}</h1>
 
             <div className="flex items-center gap-3 mt-4">
               <Rating value={product.rating} showValue />
-              <span className="text-gray-500">({product.review_count} reviews)</span>
+              <span className="text-sm text-stone-500">({product.review_count} reviews)</span>
             </div>
 
             <div className="flex items-baseline gap-3 mt-6">
-              <span className="text-4xl font-bold text-gray-900">
+              <span className="font-display text-5xl font-semibold text-wine-950">
                 ${product.price.toFixed(2)}
               </span>
               {product.original_price && (
@@ -198,30 +217,32 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
               )}
             </div>
 
-            <p className="text-gray-600 mt-6 leading-relaxed">
+            <p className="mt-6 text-base leading-8 text-stone-600">
               {product.short_description || product.description?.slice(0, 200)}
             </p>
 
             <div className="mt-8 space-y-4">
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-2">Quantity</p>
+                <p className="eyebrow mb-2">Quantity</p>
                 <div className="flex items-center gap-4">
-                  <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+                  <div className="flex items-center overflow-hidden rounded-full border border-stone-300 bg-white">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                      className="flex h-12 w-12 items-center justify-center transition-colors hover:bg-stone-100"
+                      aria-label="Decrease quantity"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
                     <span className="w-16 text-center font-medium text-lg">{quantity}</span>
                     <button
                       onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                      className="w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                      className="flex h-12 w-12 items-center justify-center transition-colors hover:bg-stone-100"
+                      aria-label="Increase quantity"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-stone-500">
                     {product.stock} available
                   </span>
                 </div>
@@ -239,36 +260,37 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
                 </Button>
                 <button
                   onClick={handleWishlist}
-                  className={`p-4 rounded-lg border-2 transition-colors ${
+                  className={`flex h-14 w-14 items-center justify-center rounded-full border transition-colors ${
                     isWishlisted
-                      ? 'border-red-500 bg-red-50 text-red-500'
-                      : 'border-gray-300 hover:border-gray-400'
+                      ? 'border-wine-900 bg-wine-900 text-white'
+                      : 'border-stone-300 bg-white hover:border-terracotta-400 hover:text-terracotta-700'
                   }`}
+                  aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
                 >
                   <Heart className={`w-6 h-6 ${isWishlisted ? 'fill-current' : ''}`} />
                 </button>
-                <button className="p-4 rounded-lg border-2 border-gray-300 hover:border-gray-400 transition-colors">
+                <button onClick={handleShare} className="flex h-14 w-14 items-center justify-center rounded-full border border-stone-300 bg-white transition-colors hover:border-terracotta-400 hover:text-terracotta-700" aria-label="Share product">
                   <Share2 className="w-6 h-6" />
                 </button>
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-3 gap-4">
-              <div className="flex items-center gap-3 p-3 bg-cream-50 rounded-lg">
+            <div className="mt-8 grid gap-3 sm:grid-cols-3">
+              <div className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-white p-3">
                 <Truck className="w-5 h-5 text-olive-600" />
                 <div className="text-sm">
                   <p className="font-medium">Free Shipping</p>
                   <p className="text-gray-500">Over $75</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 p-3 bg-cream-50 rounded-lg">
+              <div className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-white p-3">
                 <RotateCcw className="w-5 h-5 text-olive-600" />
                 <div className="text-sm">
                   <p className="font-medium">Easy Returns</p>
                   <p className="text-gray-500">30 days</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 p-3 bg-cream-50 rounded-lg">
+              <div className="flex items-center gap-3 rounded-2xl border border-stone-200 bg-white p-3">
                 <Shield className="w-5 h-5 text-olive-600" />
                 <div className="text-sm">
                   <p className="font-medium">Secure</p>
@@ -283,9 +305,9 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
           </div>
         </div>
 
-        <div className="mt-16">
-          <div className="border-b">
-            <nav className="flex gap-8">
+        <div className="surface-card mt-16 overflow-hidden p-5 md:p-8">
+          <div className="overflow-x-auto border-b border-stone-200">
+            <nav className="flex min-w-max gap-7">
               {[
                 { id: 'description', label: 'Description' },
                 { id: 'specs', label: 'Specifications' },
@@ -298,7 +320,7 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
                   className={`pb-4 font-medium transition-colors relative ${
                     activeTab === tab.id
                       ? 'text-terracotta-600'
-                      : 'text-gray-600 hover:text-gray-900'
+                      : 'text-stone-600 hover:text-wine-950'
                   }`}
                 >
                   {tab.label}
@@ -310,7 +332,7 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
             </nav>
           </div>
 
-          <div className="py-8">
+          <div className="py-8 md:py-10">
             {activeTab === 'description' && (
               <div className="prose max-w-none">
                 <p className="text-gray-600 leading-relaxed whitespace-pre-line">
@@ -339,7 +361,7 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
             {activeTab === 'reviews' && (
               <div className="grid lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-1">
-                  <div className="bg-cream-50 rounded-xl p-6">
+                  <div className="rounded-2xl border border-stone-200 bg-cream-50 p-6">
                     <div className="text-center mb-6">
                       <div className="text-5xl font-bold text-gray-900">
                         {product.rating.toFixed(1)}
@@ -377,7 +399,7 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
                   </div>
 
                   <div className="mt-6">
-                    <h3 className="font-semibold text-gray-900 mb-4">Write a Review</h3>
+                    <h3 className="mb-4 font-display text-2xl font-semibold text-wine-950">Write a review</h3>
                     <form onSubmit={handleSubmitReview} className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -512,8 +534,9 @@ export default function ProductDetailPage({ slug, onNavigate }: ProductDetailPag
 
         {relatedProducts.length > 0 && (
           <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">
-              You May Also Like
+            <p className="section-kicker">Complete the table</p>
+            <h2 className="editorial-title mb-8 mt-3 text-4xl md:text-5xl">
+              You may also love
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {relatedProducts.map((relatedProduct) => (

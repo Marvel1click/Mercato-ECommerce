@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Leaf } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useUI } from '../../contexts/UIContext';
 import Modal from '../ui/Modal';
@@ -90,19 +90,21 @@ export default function AuthModal() {
 
   return (
     <Modal isOpen={isAuthModalOpen} onClose={handleClose} size="sm">
-      <div className="text-center mb-6">
-        <div className="w-12 h-12 bg-terracotta-500 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-white font-bold text-xl">M</span>
+      <div className="mb-7 text-center">
+        <div className="relative mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-wine-950 text-cream-100 shadow-soft">
+          <Leaf className="h-5 w-5" />
+          <span className="absolute inset-1.5 rounded-full border border-cream-100/25" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900">
-          {authModalView === 'login' && 'Welcome Back'}
-          {authModalView === 'register' && 'Create Account'}
-          {authModalView === 'forgot' && 'Reset Password'}
+        <p className="eyebrow">Mercato members</p>
+        <h2 className="mt-2 font-display text-4xl font-semibold leading-none text-wine-950">
+          {authModalView === 'login' && 'Welcome back'}
+          {authModalView === 'register' && 'Join the market'}
+          {authModalView === 'forgot' && 'Reset your password'}
         </h2>
-        <p className="text-gray-500 mt-1">
-          {authModalView === 'login' && 'Sign in to access your account'}
-          {authModalView === 'register' && 'Join the Mercato family'}
-          {authModalView === 'forgot' && 'Enter your email to reset password'}
+        <p className="mt-2 text-sm text-stone-500">
+          {authModalView === 'login' && 'Return to your orders, addresses and saved finds.'}
+          {authModalView === 'register' && 'Save favourites and make checkout feel effortless.'}
+          {authModalView === 'forgot' && 'We will send a reset link to your inbox.'}
         </p>
       </div>
 
