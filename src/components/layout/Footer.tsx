@@ -23,6 +23,14 @@ const shopLinks = [
   { label: 'The gift edit', path: 'products?category=gift-collections' },
 ];
 
+const helpLinks = [
+  { label: 'Our story', path: 'info/story' },
+  { label: 'Shipping information', path: 'info/shipping' },
+  { label: 'Returns & exchanges', path: 'info/returns' },
+  { label: 'Frequently asked questions', path: 'info/faq' },
+  { label: 'Customer care', path: 'info/contact' },
+];
+
 const promises = [
   { icon: PackageCheck, label: 'Gift-ready wrapping' },
   { icon: ShieldCheck, label: 'Protected checkout' },
@@ -57,7 +65,7 @@ export default function Footer({ onNavigate }: FooterProps) {
       </div>
 
       <div className="container-custom py-14 md:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.75fr_1.15fr] lg:gap-16">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.1fr_0.65fr_0.8fr_1.15fr] lg:gap-12">
           <div>
             <button
               onClick={() => onNavigate('home')}
@@ -86,6 +94,20 @@ export default function Footer({ onNavigate }: FooterProps) {
               </a>
               <span className="flex items-center gap-3"><MapPin className="h-4 w-4" /> Florence, Italy</span>
             </div>
+          </div>
+
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-terracotta-300">Here to help</p>
+            <ul className="mt-6 space-y-3.5">
+              {helpLinks.map((link) => (
+                <li key={link.label}>
+                  <button onClick={() => onNavigate(link.path)} className="group inline-flex items-center gap-2 text-left text-sm text-stone-300 transition hover:text-white">
+                    <span className="h-px w-0 bg-terracotta-300 transition-all group-hover:w-4" />
+                    {link.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
