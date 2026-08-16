@@ -37,12 +37,13 @@ export default function QuantitySelector({
   };
 
   return (
-    <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+    <div className="flex items-center overflow-hidden rounded-full border border-stone-300 bg-white">
       <button
         type="button"
         onClick={handleDecrement}
         disabled={value <= min}
-        className={`${sizes[size].button} flex items-center justify-center hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+        className={`${sizes[size].button} flex items-center justify-center transition-colors hover:bg-cream-100 disabled:cursor-not-allowed disabled:opacity-50`}
+        aria-label="Decrease quantity"
       >
         <Minus className={sizes[size].icon} />
       </button>
@@ -55,13 +56,15 @@ export default function QuantitySelector({
         }}
         min={min}
         max={max}
-        className={`${sizes[size].input} text-center border-x border-gray-300 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+        className={`${sizes[size].input} border-x border-stone-300 bg-white text-center focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+        aria-label="Quantity"
       />
       <button
         type="button"
         onClick={handleIncrement}
         disabled={value >= max}
-        className={`${sizes[size].button} flex items-center justify-center hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+        className={`${sizes[size].button} flex items-center justify-center transition-colors hover:bg-cream-100 disabled:cursor-not-allowed disabled:opacity-50`}
+        aria-label="Increase quantity"
       >
         <Plus className={sizes[size].icon} />
       </button>

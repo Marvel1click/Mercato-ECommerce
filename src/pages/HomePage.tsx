@@ -1,23 +1,15 @@
 import { useRef } from 'react';
 import {
-  AlertCircle,
   ArrowRight,
   Award,
   BadgeCheck,
-  CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  Code2,
-  LayoutDashboard,
   Leaf,
-  Lightbulb,
   PackageCheck,
-  Palette,
   Shield,
   ShoppingBag,
-  Sparkles,
   Star,
-  TrendingUp,
   Truck,
 } from 'lucide-react';
 import { useProducts, useCategories } from '../hooks/useProducts';
@@ -100,64 +92,6 @@ const testimonials = [
   },
 ];
 
-const caseStudyItems = [
-  {
-    icon: LayoutDashboard,
-    title: 'Overview',
-    body:
-      'Mercato is a React ecommerce storefront for curated Italian groceries, kitchenware, home decor, and gifts.',
-  },
-  {
-    icon: AlertCircle,
-    title: 'Problem',
-    body:
-      'The original experience had useful commerce features, but the homepage needed stronger hierarchy, credibility, mobile polish, and a clearer business story.',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Solution',
-    body:
-      'I redesigned the homepage around a premium shopping journey: stronger merchandising, clearer CTAs, trust signals, responsive product cards, and a portfolio-ready case-study narrative.',
-  },
-  {
-    icon: CheckCircle2,
-    title: 'Key features',
-    body:
-      'Curated categories, featured product discovery, quick add-to-cart, wishlist support, product quick view, responsive search, checkout flow, and customer account surfaces.',
-  },
-  {
-    icon: Code2,
-    title: 'Tech stack',
-    body:
-      'React, TypeScript, Vite, Tailwind CSS, Supabase-ready data hooks, context-based cart and wishlist state, and Lucide icons.',
-  },
-  {
-    icon: Palette,
-    title: 'Design decisions',
-    body:
-      'Warm editorial imagery, restrained terracotta accents, sharper typography, tighter cards, section rhythm, accessible focus states, and mobile-first stacking.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Business value',
-    body:
-      'The redesign improves trust, product comprehension, browsing confidence, and conversion readiness for a premium direct-to-consumer brand.',
-  },
-  {
-    icon: Sparkles,
-    title: 'Final result',
-    body:
-      'A polished ecommerce presentation that feels client-ready while preserving the original product catalog, cart, wishlist, auth, and checkout idea.',
-  },
-];
-
-const businessMetrics = [
-  '+38% clearer conversion path',
-  '2x stronger product discovery',
-  'Mobile-first purchase journey',
-  'Portfolio-ready case study',
-];
-
 export default function HomePage({ onNavigate }: HomePageProps) {
   const { products: featuredProducts, loading: featuredLoading } = useProducts({
     featured: true,
@@ -180,36 +114,31 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   const heroProducts = featuredProducts.slice(0, 3);
 
   return (
-    <div className="bg-stone-50 text-stone-950">
-      <section className="relative overflow-hidden border-b border-stone-200/80 bg-[#f8f3ea]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,115,78,0.10),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.55),rgba(248,243,234,0.96))]" />
+    <div className="page-shell">
+      <section className="paper-texture relative overflow-hidden border-b border-stone-200/80">
+        <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full border border-terracotta-300/30" />
+        <div className="absolute -right-6 -top-6 h-56 w-56 rounded-full border border-wine-900/10" />
 
-        <div className="container-custom relative grid min-h-[560px] items-center gap-10 py-10 lg:grid-cols-[0.95fr_1.05fr] lg:py-12">
+        <div className="container-custom relative grid min-h-[650px] items-center gap-12 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:py-16">
           <div className="max-w-2xl animate-slide-up">
-            <span className="inline-flex items-center gap-2 rounded-full border border-terracotta-200 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-700 shadow-sm">
+            <span className="inline-flex items-center gap-2 rounded-full border border-terracotta-200 bg-white/70 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.22em] text-terracotta-700 shadow-sm backdrop-blur">
               <BadgeCheck className="h-4 w-4" />
-              Italian artisan goods
+              Curated in Florence · Delivered worldwide
             </span>
 
-            <h1 className="mt-6 max-w-4xl text-4xl font-semibold leading-[0.98] tracking-tight text-stone-950 sm:text-5xl lg:text-6xl">
-              Authentic Italian.
-              <span className="block text-terracotta-700">
-                Made by hand.
-              </span>
-              <span className="block text-terracotta-700">
-                Chosen for modern homes.
-              </span>
+            <h1 className="editorial-title mt-7 max-w-4xl text-5xl sm:text-6xl lg:text-7xl xl:text-[5.7rem]">
+              Italy, gathered
+              <span className="block italic text-terracotta-700">for your table.</span>
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-8 text-stone-700 sm:text-lg">
-              Mercato brings curated pantry staples, handcrafted ceramics, and
-              gift-ready Italian collections into one refined shopping
-              experience built for discovery and confident checkout.
+              Pantry treasures, hand-thrown ceramics and small-batch finds from
+              the makers who keep Italian craft beautifully alive.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button onClick={() => onNavigate('products')} size="lg">
-                Shop best sellers
+                Enter the market
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               <Button
@@ -218,7 +147,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 size="lg"
                 className="border-stone-900 text-stone-900 hover:border-terracotta-500 hover:bg-white"
               >
-                Explore collections
+                Shop the gift edit
               </Button>
             </div>
 
@@ -228,10 +157,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 return (
                   <div
                     key={item.title}
-                    className="rounded-lg border border-white/80 bg-white/65 p-4 shadow-sm backdrop-blur transition duration-300 hover:-translate-y-1 hover:bg-white"
+                    className="rounded-2xl border border-white/80 bg-white/60 p-4 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:bg-white"
                   >
                     <Icon className="h-5 w-5 text-terracotta-700" />
-                    <p className="mt-3 text-sm font-semibold text-stone-950">
+                    <p className="mt-3 font-display text-lg font-semibold text-wine-950">
                       {item.title}
                     </p>
                     <p className="mt-1 text-xs leading-5 text-stone-600">
@@ -244,24 +173,24 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           <div className="relative animate-scale-in">
-            <div className="relative overflow-hidden rounded-lg border border-white/80 bg-white p-2 shadow-strong">
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white p-2.5 shadow-strong">
               <img
                 src="/images/mercato-hero-tableau.png"
                 alt="Premium Italian pantry products, ceramics, olives, and pasta"
-                className="aspect-[16/11] w-full rounded-md object-cover"
+                className="aspect-[16/12] w-full rounded-[1.55rem] object-cover"
                 loading="eager"
               />
               <div className="absolute inset-x-2 bottom-2 rounded-b-md bg-gradient-to-t from-stone-950/35 to-transparent p-6" />
             </div>
 
-            <div className="mt-4 rounded-lg border border-stone-200 bg-white p-4 shadow-medium sm:absolute sm:bottom-8 sm:right-5 sm:mt-0 sm:w-72">
+            <div className="mt-4 rounded-2xl border border-stone-200 bg-white p-4 shadow-strong sm:absolute sm:-bottom-5 sm:right-6 sm:mt-0 sm:w-72">
               <div className="flex items-center justify-between border-b border-stone-200 pb-3">
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">
-                    From our market
+                    Il consiglio del giorno
                   </p>
                   <p className="mt-1 text-sm font-semibold text-stone-950">
-                    Quick picks for hosting
+                    Today’s table picks
                   </p>
                 </div>
                 <ShoppingBag className="h-5 w-5 text-terracotta-700" />
@@ -300,7 +229,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="border-b border-stone-200 bg-white">
+      <section className="border-b border-stone-200 bg-white/80">
         <div className="container-custom grid gap-4 py-5 sm:grid-cols-2 lg:grid-cols-4">
           {trustBadges.map((badge) => {
             const Icon = badge.icon;
@@ -313,7 +242,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-stone-950">
+                  <h3 className="font-display text-lg font-semibold text-wine-950">
                     {badge.title}
                   </h3>
                   <p className="text-xs text-stone-500">{badge.description}</p>
@@ -324,18 +253,18 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-cream-50">
         <div className="container-custom">
           <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <span className="section-kicker">Shop by category</span>
-              <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
-                Curated paths into the Italian market.
+              <span className="section-kicker">Wander by department</span>
+              <h2 className="editorial-title mt-4 max-w-3xl text-4xl md:text-6xl">
+                Begin with what draws you in.
               </h2>
             </div>
             <p className="max-w-md text-sm leading-7 text-stone-600 md:text-base">
-              A simpler browsing model helps shoppers move from inspiration to
-              cart without digging through a generic catalog.
+              From sun-warmed pantry staples to objects made for long lunches,
+              every department is selected with use, beauty and provenance in mind.
             </p>
           </div>
 
@@ -344,7 +273,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               {Array.from({ length: 4 }).map((_, i) => (
                 <div
                   key={i}
-                  className="aspect-[4/3] animate-pulse rounded-lg bg-stone-200"
+                  className="aspect-[4/3] animate-pulse rounded-2xl bg-stone-200"
                 />
               ))}
             </div>
@@ -354,7 +283,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 <button
                   key={category.id}
                   onClick={() => onNavigate(`products?category=${category.slug}`)}
-                  className="group overflow-hidden rounded-lg border border-stone-200 bg-white text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-medium focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-2"
+                  className="group overflow-hidden rounded-[1.5rem] border border-stone-200 bg-white text-left shadow-soft transition duration-500 hover:-translate-y-1 hover:shadow-strong focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:ring-offset-2"
                 >
                   <div className="aspect-[5/3] overflow-hidden bg-stone-100">
                     <img
@@ -365,7 +294,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                     />
                   </div>
                   <div className="p-5">
-                    <h3 className="font-semibold text-stone-950">
+                    <h3 className="font-display text-2xl font-semibold text-wine-950">
                       {category.name}
                     </h3>
                     <p className="mt-2 min-h-[2.5rem] text-sm leading-5 text-stone-600">
@@ -383,17 +312,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="section-padding bg-[#f8f3ea]">
+      <section className="paper-texture section-padding border-y border-stone-200/70">
         <div className="container-custom">
           <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-              <span className="section-kicker">Featured products</span>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
-                The products that sell the story.
+              <span className="section-kicker">From the counter</span>
+              <h2 className="editorial-title mt-4 text-4xl md:text-6xl">
+                The market favourites.
               </h2>
               <p className="mt-3 max-w-2xl text-stone-600">
-                Product cards were tuned for clearer pricing, stronger imagery,
-                faster actions, and a more polished hover state.
+                The pieces our customers return for, from pantry essentials to
+                quietly beautiful gifts.
               </p>
             </div>
             <Button
@@ -434,18 +363,17 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
       <section className="bg-white py-10">
         <div className="container-custom">
-          <div className="grid overflow-hidden rounded-lg border border-stone-200 bg-stone-950 text-white shadow-strong lg:grid-cols-[0.75fr_1.25fr]">
+          <div className="grid overflow-hidden rounded-[2rem] border border-stone-200 bg-wine-950 text-white shadow-strong lg:grid-cols-[0.75fr_1.25fr]">
             <div className="flex flex-col justify-center p-8 md:p-10">
               <span className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-300">
                 Seasonal collection
               </span>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
-                Summer in Italy, ready to host.
+              <h2 className="mt-4 font-display text-4xl font-semibold leading-none md:text-6xl">
+                Summer in Italy, set for supper.
               </h2>
               <p className="mt-4 text-sm leading-7 text-stone-300 md:text-base">
-                A campaign-style section turns seasonal merchandising into a
-                clear shopping moment for dinner parties, gifts, and pantry
-                upgrades.
+                Gather olive oils, linens, ceramics and generous pantry staples
+                for evenings that drift long past dessert.
               </p>
               <Button
                 onClick={() => onNavigate('products')}
@@ -465,13 +393,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-cream-50">
         <div className="container-custom">
           <div className="mb-10 flex items-end justify-between gap-4">
             <div>
               <span className="section-kicker">New arrivals</span>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
-                Fresh edits for repeat browsing.
+              <h2 className="editorial-title mt-4 text-4xl md:text-6xl">
+                Newly arrived from Italy.
               </h2>
             </div>
             <div className="hidden gap-2 md:flex">
@@ -518,12 +446,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="section-padding bg-[#f8f3ea]">
+      <section className="paper-texture section-padding border-t border-stone-200/70">
         <div className="container-custom">
           <div className="mb-10 text-center">
-            <span className="section-kicker">Customer proof</span>
-            <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
-              The shopping experience feels curated, useful, and trustworthy.
+            <span className="section-kicker">Notes from the table</span>
+            <h2 className="editorial-title mx-auto mt-4 max-w-3xl text-4xl md:text-6xl">
+              Treasured after arrival.
             </h2>
           </div>
 
@@ -531,14 +459,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             {testimonials.map((testimonial) => (
               <article
                 key={testimonial.id}
-                className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-medium"
+                className="rounded-[1.5rem] border border-stone-200 bg-white p-6 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-medium"
               >
                 <div className="flex gap-1 text-terracotta-600">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
-                <p className="mt-5 text-sm leading-7 text-stone-700">
+                <p className="mt-5 font-display text-xl leading-7 text-wine-950">
                   "{testimonial.text}"
                 </p>
                 <div className="mt-6 flex items-center gap-3">
@@ -563,68 +491,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-            <div className="lg:sticky lg:top-32 lg:self-start">
-              <span className="section-kicker">Case study</span>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-950 md:text-5xl">
-                Mercato ecommerce redesign.
-              </h2>
-              <p className="mt-5 text-base leading-8 text-stone-600">
-                This portfolio-ready section frames the project like a client
-                engagement: what changed, why it matters, and how the improved
-                experience supports a stronger premium commerce brand.
-              </p>
-
-              <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-                {businessMetrics.map((metric) => (
-                  <div
-                    key={metric}
-                    className="flex items-center gap-3 rounded-lg border border-stone-200 bg-stone-50 p-4"
-                  >
-                    <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-olive-600" />
-                    <span className="text-sm font-semibold text-stone-800">
-                      {metric}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {caseStudyItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <article
-                    key={item.title}
-                    className="rounded-lg border border-stone-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-medium"
-                  >
-                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-cream-100 text-terracotta-700">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-stone-950">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-7 text-stone-600">
-                      {item.body}
-                    </p>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-terracotta-700 py-16 text-white">
+      <section className="bg-terracotta-700 py-16 text-white md:py-20">
         <div className="container-custom">
           <div className="mx-auto max-w-3xl text-center">
             <span className="text-xs font-semibold uppercase tracking-[0.18em] text-terracotta-100">
               Join the Mercato list
             </span>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-5xl">
-              Turn discovery into a repeat shopping ritual.
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-none md:text-6xl">
+              Keep a little Italy in your inbox.
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-terracotta-50">
               Subscribe for seasonal edits, hosting guides, exclusive bundles,
@@ -634,11 +508,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="min-h-[52px] flex-1 rounded-lg border border-white/20 bg-white px-4 text-stone-950 placeholder-stone-500 outline-none transition focus:ring-2 focus:ring-white"
+                className="min-h-[52px] flex-1 rounded-full border border-white/20 bg-white px-5 text-stone-950 placeholder-stone-500 outline-none transition focus:ring-2 focus:ring-white"
               />
               <Button
                 type="submit"
-                className="min-h-[52px] bg-stone-950 text-white hover:bg-stone-800"
+                className="min-h-[52px] bg-wine-950 text-white hover:bg-wine-900"
               >
                 Subscribe
               </Button>

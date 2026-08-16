@@ -49,9 +49,9 @@ export default function QuickViewModal({ onNavigate }: QuickViewModalProps) {
       onClose={() => setQuickViewProduct(null)}
       size="xl"
     >
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-7 md:grid-cols-2 md:gap-9">
         <div className="space-y-4">
-          <div className="aspect-square rounded-xl overflow-hidden bg-gray-100">
+          <div className="aspect-square overflow-hidden rounded-2xl bg-cream-100">
             <img
               src={quickViewProduct.images[selectedImage]}
               alt={quickViewProduct.name}
@@ -64,7 +64,7 @@ export default function QuickViewModal({ onNavigate }: QuickViewModalProps) {
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-colors ${
+                  className={`h-16 w-16 flex-shrink-0 overflow-hidden rounded-xl border-2 transition-colors ${
                     selectedImage === index ? 'border-terracotta-500' : 'border-transparent'
                   }`}
                 >
@@ -76,23 +76,23 @@ export default function QuickViewModal({ onNavigate }: QuickViewModalProps) {
         </div>
 
         <div>
-          <div className="flex flex-wrap gap-2 mb-2">
+          <div className="mb-3 flex flex-wrap gap-2">
             {quickViewProduct.is_new && <Badge variant="info">New</Badge>}
             {discount > 0 && <Badge variant="error">-{discount}% OFF</Badge>}
           </div>
 
-          <p className="text-olive-600 font-medium">{quickViewProduct.brand}</p>
-          <h2 className="text-2xl font-bold text-gray-900 mt-1">{quickViewProduct.name}</h2>
+          <p className="eyebrow">{quickViewProduct.brand}</p>
+          <h2 className="mt-2 font-display text-4xl font-semibold leading-none text-wine-950">{quickViewProduct.name}</h2>
 
           <div className="flex items-center gap-2 mt-3">
             <Rating value={quickViewProduct.rating} />
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-stone-500">
               ({quickViewProduct.review_count} reviews)
             </span>
           </div>
 
           <div className="flex items-baseline gap-3 mt-4">
-            <span className="text-3xl font-bold text-gray-900">
+            <span className="font-display text-4xl font-semibold text-wine-950">
               ${quickViewProduct.price.toFixed(2)}
             </span>
             {quickViewProduct.original_price && (
@@ -102,35 +102,37 @@ export default function QuickViewModal({ onNavigate }: QuickViewModalProps) {
             )}
           </div>
 
-          <p className="text-gray-600 mt-4 line-clamp-3">
+          <p className="mt-4 line-clamp-3 text-sm leading-7 text-stone-600">
             {quickViewProduct.short_description || quickViewProduct.description}
           </p>
 
           <div className="mt-6">
-            <p className="text-sm font-medium text-gray-700 mb-2">Quantity</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-stone-600">Quantity</p>
             <div className="flex items-center gap-4">
-              <div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+              <div className="flex items-center overflow-hidden rounded-full border border-stone-300 bg-white">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  className="flex h-10 w-10 items-center justify-center transition-colors hover:bg-stone-100"
+                  aria-label="Decrease quantity"
                 >
                   <Minus className="w-4 h-4" />
                 </button>
                 <span className="w-12 text-center font-medium">{quantity}</span>
                 <button
                   onClick={() => setQuantity(Math.min(quickViewProduct.stock, quantity + 1))}
-                  className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  className="flex h-10 w-10 items-center justify-center transition-colors hover:bg-stone-100"
+                  aria-label="Increase quantity"
                 >
                   <Plus className="w-4 h-4" />
                 </button>
               </div>
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-stone-500">
                 {quickViewProduct.stock} in stock
               </span>
             </div>
           </div>
 
-          <div className="flex gap-3 mt-6">
+          <div className="mt-7 flex gap-3">
             <Button
               onClick={handleAddToCart}
               disabled={quickViewProduct.stock === 0}
@@ -141,10 +143,10 @@ export default function QuickViewModal({ onNavigate }: QuickViewModalProps) {
             </Button>
             <button
               onClick={handleWishlist}
-              className={`p-3 rounded-lg border-2 transition-colors ${
+              className={`flex h-12 w-12 items-center justify-center rounded-full border transition-colors ${
                 isWishlisted
-                  ? 'border-red-500 bg-red-50 text-red-500'
-                  : 'border-gray-300 hover:border-gray-400'
+                  ? 'border-wine-900 bg-wine-900 text-white'
+                  : 'border-stone-300 bg-white hover:border-terracotta-400 hover:text-terracotta-700'
               }`}
             >
               <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
@@ -153,7 +155,7 @@ export default function QuickViewModal({ onNavigate }: QuickViewModalProps) {
 
           <button
             onClick={handleViewDetails}
-            className="w-full mt-3 text-center text-terracotta-600 hover:text-terracotta-700 font-medium"
+            className="mt-4 w-full text-center text-sm font-semibold text-terracotta-700 underline decoration-terracotta-200 underline-offset-4 transition hover:text-wine-950"
           >
             View Full Details
           </button>

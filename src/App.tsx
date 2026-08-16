@@ -5,6 +5,7 @@ import { WishlistProvider } from "./contexts/WishlistContext";
 import { UIProvider } from "./contexts/UIContext";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import BrandCredit from "./components/layout/BrandCredit";
 import CartSlideOut from "./components/cart/CartSlideOut";
 import AuthModal from "./components/auth/AuthModal";
 import QuickViewModal from "./components/product/QuickViewModal";
@@ -86,6 +87,7 @@ function AppContent() {
       )}
       <main className="flex-1">{renderPage()}</main>
       {showHeaderFooter && <Footer onNavigate={navigate} />}
+      {!showHeaderFooter && <BrandCredit compact />}
       <CartSlideOut onNavigate={navigate} />
       <AuthModal />
       <QuickViewModal onNavigate={navigate} />

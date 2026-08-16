@@ -2,108 +2,99 @@ import { useState } from 'react';
 import {
   ArrowRight,
   CreditCard,
-  Facebook,
-  Instagram,
   Leaf,
   Mail,
   MapPin,
-  Phone,
+  PackageCheck,
   ShieldCheck,
-  Twitter,
 } from 'lucide-react';
 import Button from '../ui/Button';
+import BrandCredit from './BrandCredit';
 
 interface FooterProps {
   onNavigate: (page: string) => void;
 }
 
 const shopLinks = [
-  { label: 'Shop all', path: 'products' },
-  { label: 'Gourmet foods', path: 'products?category=gourmet-foods' },
-  { label: 'Kitchen & dining', path: 'products?category=kitchen-dining' },
-  { label: 'Home decor', path: 'products?category=home-decor' },
-  { label: 'Gift collections', path: 'products?category=gift-collections' },
+  { label: 'Shop everything', path: 'products' },
+  { label: 'The pantry', path: 'products?category=gourmet-foods' },
+  { label: 'Table & kitchen', path: 'products?category=kitchen-dining' },
+  { label: 'Objects for home', path: 'products?category=home-decor' },
+  { label: 'The gift edit', path: 'products?category=gift-collections' },
 ];
 
-const serviceLinks = [
-  'Shipping information',
-  'Returns and exchanges',
-  'Track order',
-  'Wholesale inquiries',
-  'Customer support',
+const promises = [
+  { icon: PackageCheck, label: 'Gift-ready wrapping' },
+  { icon: ShieldCheck, label: 'Protected checkout' },
+  { icon: CreditCard, label: 'Secure payments' },
 ];
 
 export default function Footer({ onNavigate }: FooterProps) {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail('');
-    }
+  const handleSubscribe = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!email.trim()) return;
+    setSubscribed(true);
+    setEmail('');
   };
 
   return (
-    <footer className="bg-stone-950 text-stone-300">
-      <div className="container-custom py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr_0.75fr_1.15fr]">
+    <footer className="overflow-hidden bg-wine-950 text-stone-300">
+      <div className="border-b border-white/10 bg-terracotta-700 text-white">
+        <div className="container-custom grid gap-px sm:grid-cols-3">
+          {promises.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.label} className="flex items-center justify-center gap-3 border-white/15 px-5 py-4 text-xs font-semibold uppercase tracking-[0.14em] sm:border-r sm:last:border-r-0">
+                <Icon className="h-4 w-4 text-cream-100" />
+                {item.label}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="container-custom py-14 md:py-20">
+        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.75fr_1.15fr] lg:gap-16">
           <div>
             <button
               onClick={() => onNavigate('home')}
-              className="group flex items-center gap-3 text-left"
+              className="group flex items-center gap-3 rounded-full text-left focus:outline-none focus:ring-2 focus:ring-terracotta-400 focus:ring-offset-4 focus:ring-offset-wine-950"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-white text-stone-950 transition group-hover:bg-terracotta-200">
+              <span className="relative flex h-12 w-12 items-center justify-center rounded-full bg-cream-100 text-wine-950 transition group-hover:rotate-[-5deg] group-hover:bg-terracotta-200">
                 <Leaf className="h-5 w-5" />
-              </div>
+                <span className="absolute inset-1.5 rounded-full border border-wine-950/20" />
+              </span>
               <span>
-                <span className="block text-xl font-extrabold uppercase tracking-[0.22em] text-white">
-                  Mercato
-                </span>
-                <span className="block text-[10px] font-semibold uppercase tracking-[0.28em] text-stone-500">
-                  Italian artisan goods
-                </span>
+                <span className="block font-display text-3xl font-semibold leading-none text-white">Mercato</span>
+                <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.28em] text-stone-500">Bottega Italiana</span>
               </span>
             </button>
 
-            <p className="mt-6 max-w-sm text-sm leading-7 text-stone-400">
-              A premium ecommerce experience for Italian pantry staples,
-              handmade tableware, and gift-ready collections.
+            <p className="mt-7 max-w-md font-display text-2xl font-medium leading-8 text-cream-100">
+              Beautiful things for generous tables and well-lived homes.
+            </p>
+            <p className="mt-4 max-w-md text-sm leading-7 text-stone-400">
+              A considered collection of Italian pantry staples, tableware and gifts, sourced from independent makers and family workshops.
             </p>
 
-            <div className="mt-6 flex gap-3">
-              {[
-                { icon: Facebook, label: 'Facebook' },
-                { icon: Instagram, label: 'Instagram' },
-                { icon: Twitter, label: 'Twitter' },
-              ].map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href="#"
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-stone-400 transition hover:border-terracotta-400 hover:bg-terracotta-600 hover:text-white"
-                    aria-label={social.label}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                );
-              })}
+            <div className="mt-7 space-y-3 text-sm text-stone-400">
+              <a href="mailto:hello@mercato.com" className="flex w-fit items-center gap-3 transition hover:text-terracotta-300">
+                <Mail className="h-4 w-4" /> hello@mercato.com
+              </a>
+              <span className="flex items-center gap-3"><MapPin className="h-4 w-4" /> Florence, Italy</span>
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-[0.16em] text-white">
-              Shop
-            </h3>
-            <ul className="mt-5 space-y-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-terracotta-300">Visit the market</p>
+            <ul className="mt-6 space-y-3.5">
               {shopLinks.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => onNavigate(link.path)}
-                    className="text-sm text-stone-400 transition hover:text-terracotta-300"
-                  >
+                  <button onClick={() => onNavigate(link.path)} className="group inline-flex items-center gap-2 text-sm text-stone-300 transition hover:text-white">
+                    <span className="h-px w-0 bg-terracotta-300 transition-all group-hover:w-4" />
                     {link.label}
                   </button>
                 </li>
@@ -111,83 +102,44 @@ export default function Footer({ onNavigate }: FooterProps) {
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-sm font-bold uppercase tracking-[0.16em] text-white">
-              Support
-            </h3>
-            <ul className="mt-5 space-y-3">
-              {serviceLinks.map((link) => (
-                <li key={link}>
-                  <button className="text-sm text-stone-400 transition hover:text-terracotta-300">
-                    {link}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="rounded-[1.75rem] border border-white/10 bg-white/[0.045] p-6 md:p-8">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-terracotta-300">Letters from Italy</p>
+            <h2 className="mt-4 font-display text-3xl font-semibold leading-none text-white">A little beauty, once a month.</h2>
+            <p className="mt-4 text-sm leading-6 text-stone-400">Seasonal recipes, maker stories and first access to limited collections.</p>
 
-          <div className="rounded-lg border border-white/10 bg-white/[0.03] p-6">
-            <h3 className="text-sm font-bold uppercase tracking-[0.16em] text-white">
-              Market notes
-            </h3>
             {subscribed ? (
-              <div className="mt-5 rounded-lg border border-olive-400/30 bg-olive-500/10 p-4 text-sm text-olive-200">
-                You are subscribed. Watch your inbox for seasonal edits.
+              <div className="mt-6 rounded-2xl border border-olive-400/30 bg-olive-500/10 p-4 text-sm text-olive-200" role="status">
+                Benvenuto. Your first market letter is on its way.
               </div>
             ) : (
-              <>
-                <p className="mt-4 text-sm leading-6 text-stone-400">
-                  Monthly product edits, hosting ideas, and first access to
-                  limited maker drops.
-                </p>
-                <form onSubmit={handleSubscribe} className="mt-5 space-y-3">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email address"
-                    className="h-12 w-full rounded-lg border border-white/10 bg-stone-900 px-4 text-white outline-none transition placeholder:text-stone-500 focus:border-terracotta-400 focus:ring-2 focus:ring-terracotta-400/30"
-                    required
-                  />
-                  <Button type="submit" className="w-full bg-white text-stone-950 hover:bg-terracotta-100">
-                    Subscribe
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </form>
-              </>
+              <form onSubmit={handleSubscribe} className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <label className="sr-only" htmlFor="footer-email">Email address</label>
+                <input
+                  id="footer-email"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="Your email address"
+                  className="min-h-12 flex-1 rounded-full border border-white/15 bg-wine-900 px-5 text-sm text-white outline-none transition placeholder:text-stone-500 focus:border-terracotta-300 focus:ring-2 focus:ring-terracotta-300/30"
+                  required
+                />
+                <Button type="submit" className="bg-cream-100 text-wine-950 hover:bg-terracotta-200">
+                  Join <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </form>
             )}
-
-            <div className="mt-7 space-y-3 text-sm">
-              <div className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 text-terracotta-300" />
-                <span>Florence, Italy</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-terracotta-300" />
-                <span>hello@mercato.com</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-terracotta-300" />
-                <span>+1 (555) 123-4567</span>
-              </div>
-            </div>
+            <p className="mt-3 text-xs text-stone-500">No clutter. Unsubscribe whenever you like.</p>
           </div>
         </div>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-custom flex flex-col items-center justify-between gap-4 py-6 text-sm text-stone-500 md:flex-row">
-          <p>2026 Mercato. All rights reserved.</p>
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-olive-300" />
-            <span>Secure checkout and protected customer data</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>Secure payments</span>
-            <CreditCard className="h-5 w-5" />
-          </div>
+        <div className="container-custom flex flex-col items-center justify-between gap-3 py-5 text-xs text-stone-500 sm:flex-row">
+          <p>© 2026 Mercato. All rights reserved.</p>
+          <p>Italian goods, thoughtfully gathered.</p>
         </div>
       </div>
+      <BrandCredit />
     </footer>
   );
 }

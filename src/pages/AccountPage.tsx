@@ -56,12 +56,13 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-cream-50 flex items-center justify-center">
-        <div className="text-center">
-          <User className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign in to view your account</h2>
-          <p className="text-gray-500 mb-6">Access your orders, addresses, and more</p>
-          <Button onClick={() => setAuthModalOpen(true)}>Sign In</Button>
+      <div className="paper-texture flex min-h-[70vh] items-center justify-center px-4">
+        <div className="surface-card max-w-lg px-8 py-12 text-center">
+          <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-wine-950 text-cream-100"><User className="h-8 w-8" /></div>
+          <p className="eyebrow">Your Mercato</p>
+          <h2 className="editorial-title mt-3 text-4xl">Sign in to return to your market.</h2>
+          <p className="mb-7 mt-4 text-sm leading-6 text-stone-500">Find past orders, saved addresses and the pieces you have been keeping an eye on.</p>
+          <Button onClick={() => setAuthModalOpen(true)}>Sign in</Button>
         </div>
       </div>
     );
@@ -146,18 +147,24 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
   };
 
   return (
-    <div className="min-h-screen bg-cream-50 py-8">
+    <div className="page-shell py-10 md:py-14">
       <div className="container-custom">
-        <div className="grid lg:grid-cols-4 gap-8">
+        <div className="mb-10">
+          <p className="eyebrow">Your Mercato</p>
+          <h1 className="editorial-title mt-3 text-5xl md:text-7xl">Welcome back, {profile?.full_name?.split(' ')[0] || 'friend'}.</h1>
+          <p className="mt-3 text-stone-600">Orders, favourites and account details—gathered in one place.</p>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-4">
           <aside className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-soft p-6">
+            <div className="surface-card sticky top-36 p-6">
               <div className="text-center mb-6">
-                <div className="w-20 h-20 bg-terracotta-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <span className="text-2xl font-bold text-terracotta-600">
+                <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-wine-950 text-cream-100 shadow-soft">
+                  <span className="font-display text-3xl font-semibold">
                     {profile?.full_name?.charAt(0) || user.email?.charAt(0).toUpperCase()}
                   </span>
                 </div>
-                <h2 className="font-semibold text-gray-900">
+                <h2 className="font-display text-xl font-semibold text-wine-950">
                   {profile?.full_name || 'User'}
                 </h2>
                 <p className="text-sm text-gray-500">{user.email}</p>
@@ -168,10 +175,10 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
                   <button
                     key={item.id}
                     onClick={() => setActiveSection(item.id)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                    className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 transition-colors ${
                       activeSection === item.id
-                        ? 'bg-terracotta-50 text-terracotta-600'
-                        : 'text-gray-600 hover:bg-gray-50'
+                        ? 'bg-wine-950 text-white shadow-soft'
+                        : 'text-stone-600 hover:bg-cream-100 hover:text-wine-950'
                     }`}
                   >
                     <item.icon className="w-5 h-5" />
@@ -180,7 +187,7 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
                 ))}
                 <button
                   onClick={handleSignOut}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-red-600 transition-colors hover:bg-red-50"
                 >
                   <LogOut className="w-5 h-5" />
                   <span className="font-medium">Sign Out</span>
@@ -192,31 +199,31 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
           <main className="lg:col-span-3">
             {activeSection === 'overview' && (
               <div className="space-y-6">
-                <div className="bg-white rounded-xl shadow-soft p-6">
-                  <h2 className="text-xl font-bold text-gray-900 mb-6">Account Overview</h2>
+                <div className="surface-card p-6 md:p-8">
+                  <h2 className="mb-6 font-display text-3xl font-semibold text-wine-950">At a glance</h2>
                   <div className="grid md:grid-cols-3 gap-6">
-                    <div className="bg-cream-50 rounded-lg p-4">
+                    <div className="rounded-2xl border border-stone-200 bg-cream-50 p-5">
                       <Package className="w-8 h-8 text-terracotta-500 mb-2" />
-                      <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
-                      <p className="text-gray-600">Total Orders</p>
+                      <p className="font-display text-3xl font-semibold text-wine-950">{orders.length}</p>
+                      <p className="text-sm text-stone-600">Total orders</p>
                     </div>
-                    <div className="bg-cream-50 rounded-lg p-4">
+                    <div className="rounded-2xl border border-stone-200 bg-cream-50 p-5">
                       <Heart className="w-8 h-8 text-terracotta-500 mb-2" />
-                      <p className="text-2xl font-bold text-gray-900">{wishlistItems.length}</p>
-                      <p className="text-gray-600">Wishlist Items</p>
+                      <p className="font-display text-3xl font-semibold text-wine-950">{wishlistItems.length}</p>
+                      <p className="text-sm text-stone-600">Saved favourites</p>
                     </div>
-                    <div className="bg-cream-50 rounded-lg p-4">
+                    <div className="rounded-2xl border border-stone-200 bg-cream-50 p-5">
                       <MapPin className="w-8 h-8 text-terracotta-500 mb-2" />
-                      <p className="text-2xl font-bold text-gray-900">{addresses.length}</p>
-                      <p className="text-gray-600">Saved Addresses</p>
+                      <p className="font-display text-3xl font-semibold text-wine-950">{addresses.length}</p>
+                      <p className="text-sm text-stone-600">Saved addresses</p>
                     </div>
                   </div>
                 </div>
 
                 {orders.length > 0 && (
-                  <div className="bg-white rounded-xl shadow-soft p-6">
+                  <div className="surface-card p-6 md:p-8">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="font-semibold text-gray-900">Recent Orders</h3>
+                      <h3 className="font-display text-2xl font-semibold text-wine-950">Recent orders</h3>
                       <button
                         onClick={() => setActiveSection('orders')}
                         className="text-terracotta-600 text-sm font-medium"
@@ -228,7 +235,7 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
                       {orders.slice(0, 3).map((order) => (
                         <div
                           key={order.id}
-                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                          className="flex items-center justify-between rounded-2xl border border-stone-200 bg-cream-50 p-4"
                         >
                           <div>
                             <p className="font-medium text-gray-900">#{order.order_number}</p>
@@ -249,8 +256,8 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
             )}
 
             {activeSection === 'orders' && (
-              <div className="bg-white rounded-xl shadow-soft p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Order History</h2>
+              <div className="surface-card p-6 md:p-8">
+                <h2 className="mb-6 font-display text-3xl font-semibold text-wine-950">Order history</h2>
                 {ordersLoading ? (
                   <div className="animate-pulse space-y-4">
                     {[1, 2, 3].map((i) => (
@@ -274,7 +281,7 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
                     {orders.map((order) => (
                       <div
                         key={order.id}
-                        className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
+                        className="rounded-2xl border border-stone-200 p-5 transition-colors hover:border-terracotta-300"
                       >
                         <div className="flex items-center justify-between mb-4">
                           <div>
@@ -321,9 +328,9 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
             )}
 
             {activeSection === 'addresses' && (
-              <div className="bg-white rounded-xl shadow-soft p-6">
+              <div className="surface-card p-6 md:p-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-gray-900">Saved Addresses</h2>
+                  <h2 className="font-display text-3xl font-semibold text-wine-950">Saved addresses</h2>
                   <Button
                     onClick={() => {
                       setEditingAddress(null);
@@ -364,7 +371,7 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
                     {addresses.map((address) => (
                       <div
                         key={address.id}
-                        className={`border rounded-lg p-4 relative ${
+                        className={`relative rounded-2xl border p-5 ${
                           address.is_default ? 'border-terracotta-500 bg-terracotta-50' : 'border-gray-200'
                         }`}
                       >
@@ -428,8 +435,8 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
             )}
 
             {activeSection === 'wishlist' && (
-              <div className="bg-white rounded-xl shadow-soft p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">My Wishlist</h2>
+              <div className="surface-card p-6 md:p-8">
+                <h2 className="mb-6 font-display text-3xl font-semibold text-wine-950">Saved favourites</h2>
                 {wishlistItems.length === 0 ? (
                   <div className="text-center py-8">
                     <Heart className="w-12 h-12 text-gray-300 mx-auto mb-4" />
@@ -451,8 +458,8 @@ export default function AccountPage({ onNavigate, section = 'overview' }: Accoun
             )}
 
             {activeSection === 'settings' && (
-              <div className="bg-white rounded-xl shadow-soft p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">Account Settings</h2>
+              <div className="surface-card p-6 md:p-8">
+                <h2 className="mb-6 font-display text-3xl font-semibold text-wine-950">Account settings</h2>
 
                 <div className="space-y-6">
                   <div>
